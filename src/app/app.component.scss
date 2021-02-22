@@ -1,0 +1,20 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
+
+.app-sidenav-container {
+  padding-top: 64px;
+  height: 100vh;
+  background-color: #20bf55;
+  background-image: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
+}
+.app-sidenav {
+  padding-top: 64px;
+  height: 100vh;
+}
+
+.toolbar-separator {
+  flex: 1 1 auto;
+}

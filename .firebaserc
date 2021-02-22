@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "thotm-41b83": {
+      "hosting": {
+        "THOTM-System-A": [
+          "thotm-41b83"
+        ]
+      }
+    }
+  }
+}
