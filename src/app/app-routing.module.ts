@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MemberListComponent } from './member-list/member-list.component';
-import { DashComponent } from './dash/dash.component';
+import { MemberInfoComponent } from './views/member-info/member-info.component';
+import { MemberListComponent } from './views/member-list/member-list.component';
+import { DashComponent } from './views/dash/dash.component';
 
 const routes: Routes = [
-  { path: 'member-list', component: MemberListComponent },
-  { path: 'dash', component: DashComponent },
+  {
+    path: 'member-list',
+    component: MemberListComponent,
+    data: { animation: 'MemberList' },
+  },
+  {
+    path: 'member-list/:id',
+    component: MemberInfoComponent,
+    data: { animation: 'MemberInfo' },
+  },
+  { path: 'dash', component: DashComponent, data: { animation: 'Dash' } },
 ];
 
 @NgModule({

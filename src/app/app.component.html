@@ -2,27 +2,19 @@
   <button mat-icon-button (click)="sideNav.toggle()">
     <mat-icon>{{ sideNav.opened ? "close" : "menu" }}</mat-icon>
   </button>
-  <span>Angular Material Demo</span>
+  <span>{{ title | uppercase }}</span>
   <span class="toolbar-separator"></span>
-
-  <button mat-icon-button>
-    <mat-icon>message</mat-icon>
-  </button>
-  <button mat-icon-button>
-    <mat-icon>exit_to_app</mat-icon>
-  </button>
 </mat-toolbar>
 
 <mat-sidenav-container class="app-sidenav-container" autosize>
-  <mat-sidenav #sideNav class="app-sidenav" fixedTopGap="20" mode="push">
+  <mat-sidenav #sideNav class="app-sidenav" fixedTopGap="20" mode="side">
     <mat-nav-list>
       <a [routerLink]="['/', 'member-list']" mat-list-item>會員列表</a>
       <a [routerLink]="['/', 'dash']" mat-list-item>dash</a>
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <div role="banner">{{ title }}</div>
-    <router-outlet></router-outlet>
+  <mat-sidenav-content [@routeAnimations]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

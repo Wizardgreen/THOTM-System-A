@@ -1,0 +1,80 @@
+<app-spinner [enable]="ready === false"></app-spinner>
+
+<div class="page-wrapper" [hidden]="ready === false">
+  <form class="form-container form-basic-info" [formGroup]="basicInfo">
+    <app-row>
+      <mat-form-field appearance="standard">
+        <mat-label>姓名</mat-label>
+        <input matInput required formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>暱稱</mat-label>
+        <input matInput formControlName="nickName" />
+      </mat-form-field>
+    </app-row>
+    <mat-form-field appearance="standard">
+      <mat-label>生日</mat-label>
+      <input
+        matInput
+        [matDatepicker]="birthdayPicker"
+        formControlName="birthday"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="birthdayPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #birthdayPicker>
+        <mat-datepicker-actions>
+          <button mat-button matDatepickerCancel>取消</button>
+          <button mat-raised-button color="primary" matDatepickerApply>
+            確定
+          </button>
+        </mat-datepicker-actions>
+      </mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>居住地</mat-label>
+      <input matInput formControlName="city" />
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>Line ID</mat-label>
+      <input matInput required formControlName="lineId" />
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>手機</mat-label>
+      <input matInput required formControlName="phone" />
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>電子信箱</mat-label>
+      <input matInput placeholder="pat@example.com" formControlName="email" />
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>方案</mat-label>
+      <mat-select formControlName="program">
+        <mat-option value="option">Option</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>加入日期</mat-label>
+      <input
+        matInput
+        [matDatepicker]="joinDatePicker"
+        formControlName="joinDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="joinDatePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #joinDatePicker>
+        <mat-datepicker-actions>
+          <button mat-button matDatepickerCancel>取消</button>
+          <button mat-raised-button color="primary" matDatepickerApply>
+            確定
+          </button>
+        </mat-datepicker-actions>
+      </mat-datepicker>
+    </mat-form-field>
+    <mat-checkbox formControlName="hasCard">已領取會員證</mat-checkbox>
+  </form>
+  <div>123</div>
+</div>

@@ -8,3 +8,16 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.mat-table {
+  width: 100%;
+}
+
+.page-wrapper {
+  display: flex;
+  width: 80%;
+  margin: 30px auto 0;
+  > * {
+    flex: 1;
+  }
+}
