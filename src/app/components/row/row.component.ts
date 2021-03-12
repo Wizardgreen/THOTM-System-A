@@ -8,9 +8,11 @@ import { Component } from '@angular/core';
     </div>
   `,
   styles: [
-    '.app-row {  display: flex; }',
+    '.app-row { display: flex; }',
     '.app-row ::ng-deep mat-form-field { flex: 1; }',
-    '.app-row ::ng-deep mat-form-field:nth-child(even) { margin-left: 40px; }',
+    '.app-row ::ng-deep div.spacing { flex: 1; }',
+    '.app-row ::ng-deep mat-form-field + mat-form-field { margin-left: 40px; }',
+    '.app-row ::ng-deep mat-form-field + div.spacing { margin-left: 40px; }',
   ],
 })
 export class RowComponent {}

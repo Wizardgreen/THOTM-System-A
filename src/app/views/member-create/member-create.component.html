@@ -1,0 +1,144 @@
+<app-page-wrapper>
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step label="內環規章" [stepControl]="agreement">
+      <div class="step-wrapper">
+        <h2 class="step-inner-title">【 小人物之丘 內環規章 】</h2>
+        <ul class="rule-list">
+          <ng-container *ngFor="let rule of rules">
+            <li class="list-item-subtitle">
+              <mat-icon>label</mat-icon><b>{{ rule.subtitle }}</b>
+            </li>
+            <ol class="rule-content">
+              <ng-container *ngFor="let detail of rule.content">
+                <li>{{ detail }}</li>
+              </ng-container>
+            </ol>
+          </ng-container>
+        </ul>
+        <mat-checkbox class="agreement-check-box" [formControl]="agreement"
+          >我同意且願意遵守規章</mat-checkbox
+        >
+        <button
+          class="btn-ok"
+          mat-stroked-button
+          color="primary"
+          matStepperNext
+        >
+          下一步
+        </button>
+      </div>
+    </mat-step>
+    <mat-step label="基本資訊" [stepControl]="profile">
+      <form class="form-container form-profile" [formGroup]="profile">
+        <app-row>
+          <mat-form-field appearance="standard">
+            <mat-label>姓名 *</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>暱稱</mat-label>
+            <input matInput formControlName="nickname" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>生日</mat-label>
+            <input
+              matInput
+              [max]="birthDayLimit"
+              [matDatepicker]="birthdayPicker"
+              formControlName="birthday"
+              (dateChange)="onDateChange($event, 'birthday')"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="birthdayPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+              [startAt]="birthDayStart"
+              startView="multi-year"
+              #birthdayPicker
+            ></mat-datepicker>
+          </mat-form-field>
+        </app-row>
+        <app-row>
+          <mat-form-field appearance="standard">
+            <mat-label>Line ID *</mat-label>
+            <input matInput formControlName="lineId" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>手機 *</mat-label>
+            <input matInput formControlName="phone" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>加入日期</mat-label>
+            <input
+              matInput
+              [max]="today"
+              [matDatepicker]="joinDatePicker"
+              formControlName="joinDate"
+              (dateChange)="onDateChange($event, 'joinDate')"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="joinDatePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #joinDatePicker></mat-datepicker>
+          </mat-form-field>
+        </app-row>
+        <app-row>
+          <mat-form-field appearance="standard">
+            <mat-label>居住地</mat-label>
+            <mat-select formControlName="city">
+              <mat-optgroup
+                *ngFor="let group of locationList"
+                [label]="group.groupName"
+              >
+                <mat-option
+                  *ngFor="let location of group.list"
+                  [value]="location"
+                >
+                  {{ location }}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>電子信箱</mat-label>
+            <input
+              matInput
+              placeholder="pat@example.com"
+              formControlName="email"
+            />
+          </mat-form-field>
+          <div class="spacing"></div>
+        </app-row>
+      </form>
+      <button
+        mat-stroked-button
+        color="primary"
+        class="btn-ok"
+        (click)="postNewMember()"
+      >
+        送出資訊
+      </button>
+    </mat-step>
+    <mat-step label="完成">
+      <div class="step-wrapper">
+        <h2 class="step-inner-title">歡迎加入內環兄弟會，指揮官。</h2>
+        <h3 class="step-inner-title">
+          即日起您就是內環成員囉！請透過下方 QR Code 加入對話群組
+        </h3>
+        <div class="card-wrapper">
+          <ng-container *ngFor="let item of qrCodeList">
+            <mat-card class="media-card">
+              <mat-card-header>
+                <mat-card-title>{{ item.title }}</mat-card-title>
+                <mat-card-subtitle>{{ item.des }}</mat-card-subtitle>
+              </mat-card-header>
+              <img mat-card-image [src]="item.image" [alt]="item.alt" />
+            </mat-card>
+          </ng-container>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</app-page-wrapper>

@@ -1,80 +1,177 @@
 <app-spinner [enable]="ready === false"></app-spinner>
 
-<div class="page-wrapper" [hidden]="ready === false">
-  <form class="form-container form-basic-info" [formGroup]="basicInfo">
-    <app-row>
+<app-page-wrapper [hidden]="ready === false">
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>個人資料</mat-panel-title>
+      </mat-expansion-panel-header>
+      <form class="form-container form-basic-info" [formGroup]="profile">
+        <app-row>
+          <mat-form-field appearance="standard">
+            <mat-label>姓名</mat-label>
+            <input matInput required formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>暱稱</mat-label>
+            <input matInput formControlName="nickname" />
+          </mat-form-field>
+        </app-row>
+        <mat-form-field appearance="standard">
+          <mat-label>生日</mat-label>
+          <input
+            matInput
+            [matDatepicker]="birthdayPicker"
+            formControlName="birthday"
+            (dateChange)="onDateChange($event, 'birthday')"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="birthdayPicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #birthdayPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>居住地</mat-label>
+          <mat-select formControlName="city">
+            <mat-optgroup
+              *ngFor="let group of locationList"
+              [label]="group.groupName"
+            >
+              <mat-option
+                *ngFor="let location of group.list"
+                [value]="location"
+              >
+                {{ location }}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+        <app-row>
+          <mat-form-field appearance="standard">
+            <mat-label>Line ID</mat-label>
+            <input matInput required formControlName="lineId" />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>手機</mat-label>
+            <input matInput required formControlName="phone" />
+          </mat-form-field>
+        </app-row>
+        <mat-form-field appearance="standard">
+          <mat-label>電子信箱</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            formControlName="email"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="standard">
+          <mat-label>加入日期</mat-label>
+          <input
+            matInput
+            [matDatepicker]="joinDatePicker"
+            formControlName="joinDate"
+            (dateChange)="onDateChange($event, 'joinDate')"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="joinDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #joinDatePicker> </mat-datepicker>
+        </mat-form-field>
+        <mat-checkbox formControlName="hasCard">已領取會員證</mat-checkbox>
+      </form>
+      <button
+        class="btn-apply"
+        mat-flat-button
+        color="warn"
+        (click)="updateMemberBasicInfo()"
+      >
+        修改
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+        <mat-panel-title> 會籍 </mat-panel-title>
+      </mat-expansion-panel-header>
+      <h3>現行會籍</h3>
+      <!-- <app-row> -->
       <mat-form-field appearance="standard">
-        <mat-label>姓名</mat-label>
-        <input matInput required formControlName="name" />
+        <mat-label>會籍名稱</mat-label>
+        <mat-select [value]="currentProgram.id" disabled>
+          <mat-option *ngFor="let item of programList" [value]="item.value">{{
+            item.viewValue
+          }}</mat-option>
+        </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="standard">
-        <mat-label>暱稱</mat-label>
-        <input matInput formControlName="nickName" />
+      <mat-form-field appearance="standard" class="expiry-date-field">
+        <mat-label>會籍到期日</mat-label>
+        <input matInput [value]="currentProgram.end" disabled />
       </mat-form-field>
-    </app-row>
-    <mat-form-field appearance="standard">
-      <mat-label>生日</mat-label>
-      <input
-        matInput
-        [matDatepicker]="birthdayPicker"
-        formControlName="birthday"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="birthdayPicker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #birthdayPicker>
-        <mat-datepicker-actions>
-          <button mat-button matDatepickerCancel>取消</button>
-          <button mat-raised-button color="primary" matDatepickerApply>
-            確定
-          </button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-    </mat-form-field>
-    <mat-form-field appearance="standard">
-      <mat-label>居住地</mat-label>
-      <input matInput formControlName="city" />
-    </mat-form-field>
-    <mat-form-field appearance="standard">
-      <mat-label>Line ID</mat-label>
-      <input matInput required formControlName="lineId" />
-    </mat-form-field>
-    <mat-form-field appearance="standard">
-      <mat-label>手機</mat-label>
-      <input matInput required formControlName="phone" />
-    </mat-form-field>
-    <mat-form-field appearance="standard">
-      <mat-label>電子信箱</mat-label>
-      <input matInput placeholder="pat@example.com" formControlName="email" />
-    </mat-form-field>
-    <mat-form-field appearance="standard">
-      <mat-label>方案</mat-label>
-      <mat-select formControlName="program">
-        <mat-option value="option">Option</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="standard">
-      <mat-label>加入日期</mat-label>
-      <input
-        matInput
-        [matDatepicker]="joinDatePicker"
-        formControlName="joinDate"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="joinDatePicker"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #joinDatePicker>
-        <mat-datepicker-actions>
-          <button mat-button matDatepickerCancel>取消</button>
-          <button mat-raised-button color="primary" matDatepickerApply>
-            確定
-          </button>
-        </mat-datepicker-actions>
-      </mat-datepicker>
-    </mat-form-field>
-    <mat-checkbox formControlName="hasCard">已領取會員證</mat-checkbox>
-  </form>
-  <div>123</div>
-</div>
+      <button class="update-program" mat-flat-button color="warn">
+        修改會籍
+      </button>
+      <!-- (click)="updateMemberBasicInfo()" -->
+      <!-- <mat-form-field appearance="standard">
+          <mat-label>會籍到期日</mat-label>
+          <input
+            matInput
+            [value]="currentProgram.end"
+            [matDatepicker]="expiryDatePicker"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="expiryDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #expiryDatePicker></mat-datepicker>
+        </mat-form-field> -->
+      <!-- </app-row> -->
+      <h3>歷史紀錄</h3>
+      <table
+        mat-table
+        matSort
+        class="program-table"
+        [dataSource]="historyProgram"
+        [fixedLayout]="false"
+      >
+        <ng-container matColumnDef="sort">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+          <td mat-cell *matCellDef="let row">{{ row.sort + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>會籍</th>
+          <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="start">
+          <th mat-header-cell *matHeaderCellDef>起始日期</th>
+          <td mat-cell *matCellDef="let row">{{ row.start }}</td>
+        </ng-container>
+        <ng-container matColumnDef="end">
+          <th mat-header-cell *matHeaderCellDef>結束日期</th>
+          <td mat-cell *matCellDef="let row">{{ row.end }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="programHeader"></tr>
+        <tr mat-row *matRowDef="let row; columns: programHeader"></tr>
+      </table>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false" disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title> 櫃位 (尚未開放) </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false" disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title> 遊戲 (尚未開放)</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="false" disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title> 未到商品 (尚未開放)</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</app-page-wrapper>

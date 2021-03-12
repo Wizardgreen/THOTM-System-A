@@ -2,3 +2,22 @@
   display: flex;
   flex-direction: column;
 }
+
+.btn-apply {
+  margin-top: 40px;
+  float: right;
+}
+
+.program-table {
+  .mat-column-sort {
+    width: 50px;
+  }
+}
+
+.update-program {
+  float: right;
+}
+
+.expiry-date-field {
+  margin-left: 40px;
+}

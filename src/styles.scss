@@ -1,4 +1,6 @@
-@import "@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+$main-color: #213a27;
 
 html,
 body {
@@ -13,11 +15,6 @@ body {
   width: 100%;
 }
 
-.page-wrapper {
-  display: flex;
-  width: 80%;
-  margin: 30px auto 0;
-  > * {
-    flex: 1;
-  }
+.full-width-field {
+  width: 100%;
 }

@@ -1,0 +1,55 @@
+.step-wrapper {
+  padding-top: 20px;
+  height: 70vh;
+  overflow-y: auto;
+}
+
+.step-inner-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.rule-list {
+  padding-left: 20px;
+  > li {
+    list-style: none;
+  }
+}
+
+.rule-content {
+  > li + li {
+    margin-top: 5px;
+  }
+}
+
+.list-item-subtitle {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  > .mat-icon {
+    margin-right: 5px;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.agreement-check-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.btn-ok {
+  display: block;
+  margin: 30px auto 0 auto;
+}
+
+.card-wrapper {
+  display: flex;
+  > .media-card {
+    flex: 1;
+  }
+  > .media-card + .media-card {
+    margin-left: 10px;
+  }
+}
