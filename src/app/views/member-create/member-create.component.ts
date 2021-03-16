@@ -10,10 +10,9 @@ import {
   FormControl,
 } from '@angular/forms';
 import * as moment from 'moment';
-import { ProgramMap } from '../../utils/maps';
 import { map } from 'rxjs/operators';
 import { rules, qrCodeList } from './setting';
-import { LocationList } from '../../utils/maps';
+import { LocationList, ProgramMap } from '../../utils/maps';
 
 const createMemberData = () => ({
   birthday: '',

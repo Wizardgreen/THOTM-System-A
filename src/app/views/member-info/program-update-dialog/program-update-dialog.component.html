@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>更新會籍</h1>
+<div mat-dialog-content class="wrapper">
+  <mat-form-field>
+    <mat-label>新會籍方案</mat-label>
+    <mat-select (valueChange)="onChange($event)" [value]="id">
+      <mat-option *ngFor="let item of data.programList" [value]="item.value">{{
+        item.viewValue
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="end">
+    <mat-label>會籍到期日</mat-label>
+    <input matInput [value]="end" disabled />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">取消</button>
+  <button mat-button [mat-dialog-close]="getUpdateProgram" cdkFocusInitial>
+    確定修改
+  </button>
+</div>

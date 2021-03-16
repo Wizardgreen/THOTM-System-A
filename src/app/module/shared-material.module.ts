@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -52,6 +53,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatExpansionModule,
     MatSnackBarModule,
     MatStepperModule,
+    MatDialogModule,
     LayoutModule,
   ],
 })

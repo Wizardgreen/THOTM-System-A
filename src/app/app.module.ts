@@ -17,6 +17,7 @@ import { AppRoutingModule } from './module/app-routing.module';
 import { environment } from './../environments/environment';
 
 import { SharedMaterialModule } from './module/shared-material.module';
+import { ProgramUpdateDialogComponent } from './views/member-info/program-update-dialog/program-update-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SharedMaterialModule } from './module/shared-material.module';
     SpinnerComponent,
     RowComponent,
     PageWrapperComponent,
+    ProgramUpdateDialogComponent,
   ],
   imports: [
     ReactiveFormsModule,

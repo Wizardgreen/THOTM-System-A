@@ -3,8 +3,15 @@ import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { ProgramMap, LocationList } from '../../utils/maps';
+import { ProgramUpdateDialogComponent } from './program-update-dialog/program-update-dialog.component';
+import { ProgramMap, LocationList } from 'src/app/utils/maps';
+
+interface ProgramTableRowData extends ProgramRecordType {
+  name: string;
+}
+
 @Component({
   selector: 'app-member-info',
   templateUrl: './member-info.component.html',
@@ -24,9 +31,9 @@ export class MemberInfoComponent implements OnInit {
     hasCard: [false],
   });
 
-  programHeader = ['sort', 'id', 'start', 'end'];
+  programHeader = ['sort', 'name', 'start', 'end'];
   currentProgram: ProgramRecordType = { id: '', end: '', start: '' };
-  historyProgram: ProgramRecordType[] = [];
+  historyProgram: ProgramTableRowData[] = [];
 
   locationList = LocationList;
   programList = Object.values(ProgramMap);
@@ -37,7 +44,8 @@ export class MemberInfoComponent implements OnInit {
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -53,18 +61,21 @@ export class MemberInfoComponent implements OnInit {
       .subscribe(({ program, ...other }: MemberInfoType) => {
         this.profile.patchValue(other);
         this.currentProgram = program.current;
-        this.historyProgram = program.history.map(({ id, ...left }) => ({
-          ...left,
-          id: ProgramMap[id].viewValue,
-        }));
+        this.historyProgram = program.history.map(({ id, ...left }) => {
+          return {
+            ...left,
+            name: ProgramMap[id].viewValue,
+            id: ProgramMap[id].value,
+          };
+        });
         this.ready = true;
       });
   }
 
   updateMemberBasicInfo(): void {
-    const data = this.profile.getRawValue();
-    this.memberRef.update(data).then(() => {
-      this.openSnackBar('修改成功', '關閉');
+    const payload = this.profile.getRawValue();
+    this.memberRef.update(payload).then(() => {
+      this.openSnackBar('成功修改基本資料', '關閉');
     });
   }
 
@@ -74,6 +85,41 @@ export class MemberInfoComponent implements OnInit {
     // if (this.basicInfoModified === false) {
     //   this.basicInfoModified = true;
     // }
+  }
+
+  updateMemberProgram(newProgram: ProgramRecordType): void {
+    const newPosition = String(this.historyProgram.length);
+    const payload = {
+      current: newProgram,
+      history: [
+        ...this.historyProgram.map(({ name, ...rest }) => ({ ...rest })),
+        { sort: newPosition, ...newProgram },
+      ],
+    };
+
+    this.memberRef.update({ program: payload }).then(() => {
+      this.openSnackBar('成功更新會籍', '關閉');
+    });
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ProgramUpdateDialogComponent, {
+      width: '450px',
+      data: {
+        programList: this.programList.filter(({ value }) => {
+          const { HL, MA, GO } = ProgramMap;
+          return value !== HL.value && value !== MA.value && value !== GO.value;
+        }),
+      },
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (newProgram: ProgramRecordType) => {
+        if (newProgram) {
+          this.updateMemberProgram(newProgram);
+        }
+      },
+    });
   }
 
   openSnackBar(message: string, action: string): void {
