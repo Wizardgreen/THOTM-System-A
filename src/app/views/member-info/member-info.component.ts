@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { ProgramUpdateDialogComponent } from './program-update-dialog/program-update-dialog.component';
-import { ProgramMap, LocationList } from 'src/app/utils/maps';
+import { ProgramMap, LocationList } from '@utils/maps';
 
 interface ProgramTableRowData extends ProgramRecordType {
   name: string;

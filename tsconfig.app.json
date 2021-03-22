@@ -1,15 +1,17 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",
+  "baseUrl": "./src",
+  "paths": {
+    "@views/*": ["app/views/*"],
+    "@components/*": ["app/components/*"],
+    "@service/*": ["app/service/*"],
+    "@utils/*": ["app/utils/*"]
+  },
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": []
   },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/**/*.d.ts"]
 }

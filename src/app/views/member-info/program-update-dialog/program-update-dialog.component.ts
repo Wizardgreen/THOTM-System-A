@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProgramEnum } from 'src/app/utils/enum';
+import { ProgramEnum } from '@utils/enum';
 import * as moment from 'moment';
 
 interface DialogData {

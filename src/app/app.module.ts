@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { AppComponent } from './app.component';
 import { MemberListComponent } from './views/member-list/member-list.component';
 import { MemberInfoComponent } from './views/member-info/member-info.component';
 import { MemberCreateComponent } from './views/member-create/member-create.component';
 import { DashComponent } from './views/dash/dash.component';
+import { LoginComponent } from './views/login/login.component';
+
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { RowComponent } from './components/row/row.component';
 import { PageWrapperComponent } from './components/page-wrapper/page-wrapper.component';
@@ -26,6 +29,7 @@ import { ProgramUpdateDialogComponent } from './views/member-info/program-update
     MemberInfoComponent,
     MemberCreateComponent,
     DashComponent,
+    LoginComponent,
     SpinnerComponent,
     RowComponent,
     PageWrapperComponent,
