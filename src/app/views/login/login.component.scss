@@ -1,21 +1,10 @@
-.grid-container {
-  margin: 20px;
+.login-page-wrapper {
+  height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.dashboard-card {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
-}
-
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-}
-
-.dashboard-card-content {
-  text-align: center;
+.form-auth {
+  width: 300px;
 }

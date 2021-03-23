@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-page-wrapper',
   template: `
-    <div class="page-wrapper">
+    <div class="page-wrapper" [style.maxWidth.px]="maxWidth">
       <ng-content></ng-content>
     </div>
   `,
@@ -11,10 +11,16 @@ import { Component } from '@angular/core';
     `
       .page-wrapper {
         width: 90%;
-        max-width: 800px;
         margin: 60px auto;
       }
     `,
   ],
 })
-export class PageWrapperComponent {}
+export class PageWrapperComponent implements OnInit {
+  @Input() maxWidth: number | string = null;
+  ngOnInit(): void {
+    if (this.maxWidth === null) {
+      this.maxWidth = 800;
+    }
+  }
+}

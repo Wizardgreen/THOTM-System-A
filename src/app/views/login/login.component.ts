@@ -1,3 +1,4 @@
+import { FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor() {}
+  form = this.fb.group({
+    email: ['', Validators.required],
+    password: ['', Validators.required],
+  });
+  constructor(private fb: FormBuilder) {
+    const email = this.form.get('email');
+    const password = this.form.get('password');
+  }
+
+  submit(): void {}
 }

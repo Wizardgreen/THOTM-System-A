@@ -1,24 +1,22 @@
-<div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <!-- <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
-      <mat-card class="dashboard-card">
-        <mat-card-header>
-          <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile> -->
-  </mat-grid-list>
+<div class="login-page-wrapper">
+  <mat-card>
+    <form class="form-container form-auth" [formGroup]="form">
+      <mat-form-field appearance="standard">
+        <mat-label>電子郵件</mat-label>
+        <input matInput email formControlName="email" />
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>密碼</mat-label>
+        <input matInput password formControlName="password" />
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        color="primary"
+        class="btn-ok"
+        (click)="submit()"
+      >
+        登入
+      </button>
+    </form>
+  </mat-card>
 </div>
