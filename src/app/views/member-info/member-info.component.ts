@@ -26,6 +26,7 @@ export class MemberInfoComponent implements OnInit {
     lineId: [''],
     phone: [''],
     email: [''],
+    storage: [''],
     expiryDate: [''],
     joinDate: [''],
     hasCard: [false],

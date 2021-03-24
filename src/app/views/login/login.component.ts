@@ -1,5 +1,7 @@
+import { AuthService } from '../../service/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,14 +9,35 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  loading = false;
   form = this.fb.group({
     email: ['', Validators.required],
     password: ['', Validators.required],
   });
-  constructor(private fb: FormBuilder) {
-    const email = this.form.get('email');
-    const password = this.form.get('password');
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  login() {
+    const { email, password } = this.form.value;
+    this.loading = true;
+    this.authService
+      .login(email, password)
+      .then((res) => {
+        console.log(res);
+        this.loading = false;
+        this.router.navigate(['member-list']);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.loading = false;
+      });
   }
 
-  submit(): void {}
+  get isLoginDisabled(): boolean {
+    if (this.form.status === 'VALID' && this.loading === false) return false;
+    return true;
+  }
 }

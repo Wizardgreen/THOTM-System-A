@@ -120,7 +120,14 @@ export class MemberCreateComponent implements OnInit {
     const newProfile = {
       ...createMemberData(),
       ...this.profile.getRawValue(),
-      program: ProgramMap.GO.value, // 基礎會員級別
+      program: {
+        current: {
+          id: ProgramMap.GO.value, // 基礎會員級別
+          start: '-',
+          end: '-',
+        },
+        history: [],
+      },
     };
     this.memberObjectRef.update({ [this.newMemberID]: newProfile }).then(() => {
       this.stepper.next();

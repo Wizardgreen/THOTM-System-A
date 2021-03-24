@@ -1,19 +1,25 @@
 <div class="login-page-wrapper">
-  <mat-card>
+  <mat-card class="card-container">
+    <mat-progress-bar
+      *ngIf="loading"
+      mode="indeterminate"
+      class="loading-bar"
+    ></mat-progress-bar>
     <form class="form-container form-auth" [formGroup]="form">
       <mat-form-field appearance="standard">
         <mat-label>電子郵件</mat-label>
-        <input matInput email formControlName="email" />
+        <input matInput type="email" email formControlName="email" />
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>密碼</mat-label>
-        <input matInput password formControlName="password" />
+        <input matInput type="password" formControlName="password" />
       </mat-form-field>
       <button
         mat-stroked-button
         color="primary"
         class="btn-ok"
-        (click)="submit()"
+        [disabled]="isLoginDisabled"
+        (click)="login()"
       >
         登入
       </button>

@@ -21,8 +21,8 @@
           <mat-label>生日</mat-label>
           <input
             matInput
-            [matDatepicker]="birthdayPicker"
             formControlName="birthday"
+            [matDatepicker]="birthdayPicker"
             (dateChange)="onDateChange($event, 'birthday')"
           />
           <mat-datepicker-toggle
@@ -31,22 +31,7 @@
           ></mat-datepicker-toggle>
           <mat-datepicker #birthdayPicker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field appearance="standard">
-          <mat-label>居住地</mat-label>
-          <mat-select formControlName="city">
-            <mat-optgroup
-              *ngFor="let group of locationList"
-              [label]="group.groupName"
-            >
-              <mat-option
-                *ngFor="let location of group.list"
-                [value]="location"
-              >
-                {{ location }}
-              </mat-option>
-            </mat-optgroup>
-          </mat-select>
-        </mat-form-field>
+
         <app-row>
           <mat-form-field appearance="standard">
             <mat-label>Line ID</mat-label>
@@ -57,15 +42,36 @@
             <input matInput required formControlName="phone" />
           </mat-form-field>
         </app-row>
-        <mat-form-field appearance="standard">
-          <mat-label>電子信箱</mat-label>
-          <input
-            matInput
-            placeholder="pat@example.com"
-            formControlName="email"
-          />
-        </mat-form-field>
-
+        <app-row>
+          <mat-form-field appearance="standard">
+            <mat-label>居住地</mat-label>
+            <mat-select formControlName="city">
+              <mat-optgroup
+                *ngFor="let group of locationList"
+                [label]="group.groupName"
+              >
+                <mat-option
+                  *ngFor="let location of group.list"
+                  [value]="location"
+                >
+                  {{ location }}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>電子信箱</mat-label>
+            <input
+              matInput
+              placeholder="pat@example.com"
+              formControlName="email"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="standard">
+            <mat-label>櫃位</mat-label>
+            <input matInput formControlName="storage" />
+          </mat-form-field>
+        </app-row>
         <mat-form-field appearance="standard">
           <mat-label>加入日期</mat-label>
           <input

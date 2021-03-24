@@ -10,7 +10,6 @@ fs.createReadStream(absolutePath)
   .pipe(csv())
   .on("data", (data) => results.push(data))
   .on("end", () => {
-    // console.log(formatter(results));
     pbcopy(JSON.stringify(formatter(results)));
     console.log("Done!");
   });
@@ -41,15 +40,25 @@ const formatter = (parsedCsv) => {
       const programID = program.find(({ label }) => {
         return label === info.月繳方案;
       }).value;
+
+      const isSpecialProgram = programID === "GO" || programID === "HL";
       const currentProgram = {
         id: programID,
         start: "-",
-        end: programID === "GO" || programID === "HL" ? "-" : info.方案到期日,
+        end: isSpecialProgram ? "-" : info.方案到期日,
       };
+
+      const historyProgram = isSpecialProgram
+        ? []
+        : [
+            {
+              sort: 0,
+              ...currentProgram,
+            },
+          ];
       return {
         birthday: formatDate(info.出生日),
         email: info.Email,
-        // expiryDate: formatDate(info.方案到期日),
         id: info.內環編號,
         city: info.現居住地,
         hasCard: info.會員卡 === "已領" ? true : false,
@@ -63,12 +72,7 @@ const formatter = (parsedCsv) => {
         storage: info.櫃位,
         program: {
           current: currentProgram,
-          history: [
-            {
-              sort: 0,
-              ...currentProgram,
-            },
-          ],
+          history: historyProgram,
         },
         game: {
           wh40k: info["戰鎚 40K"],

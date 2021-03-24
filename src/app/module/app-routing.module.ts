@@ -1,39 +1,53 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {
+  AngularFireAuthGuard,
+  redirectUnauthorizedTo,
+  redirectLoggedInTo,
+} from '@angular/fire/auth-guard';
 import { MemberInfoComponent } from '@views/member-info/member-info.component';
 import { MemberListComponent } from '@views/member-list/member-list.component';
 import { MemberCreateComponent } from '@views/member-create/member-create.component';
 import { LoginComponent } from '@views/login/login.component';
 
-import { DashComponent } from '@views/dash/dash.component';
-
+// import { DashComponent } from '@views/dash/dash.component';
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectLoggedInToMemberList = () => redirectLoggedInTo(['member-list']);
 const routes: Routes = [
-  {
-    path: '',
-    component: LoginComponent,
-    data: { animation: 'Login' },
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: { animation: 'Login' },
-  },
   {
     path: 'member-list',
     component: MemberListComponent,
-    data: { animation: 'MemberList' },
+    data: {
+      animation: 'MemberList',
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+    canActivate: [AngularFireAuthGuard],
   },
   {
     path: 'member-list/:id',
     component: MemberInfoComponent,
-    data: { animation: 'MemberInfo' },
+    data: {
+      animation: 'MemberInfo',
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+    canActivate: [AngularFireAuthGuard],
   },
   {
     path: 'member-create',
     component: MemberCreateComponent,
-    data: { animation: 'MemberCreate' },
+    data: {
+      animation: 'MemberCreate',
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+    canActivate: [AngularFireAuthGuard],
   },
-  { path: 'dash', component: DashComponent, data: { animation: 'Dash' } },
+  {
+    path: '**',
+    component: LoginComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToMemberList },
+  },
+  // { path: 'dash', component: DashComponent, data: { animation: 'Dash' } },
 ];
 
 @NgModule({
