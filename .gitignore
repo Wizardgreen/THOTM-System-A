@@ -45,3 +45,6 @@ testem.log
 .DS_Store
 Thumbs.db
 /formatter/B.csv
+
+# ENV
+src/environments/extend.ts

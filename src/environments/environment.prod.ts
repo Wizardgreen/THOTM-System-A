@@ -1,3 +1,6 @@
+import { content } from './extend';
+
 export const environment = {
-  production: true
+  production: true,
+  ...content,
 };
