@@ -42,10 +42,14 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
   },
   {
-    path: '**',
+    path: 'login',
     component: LoginComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectLoggedInToMemberList },
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
   },
   // { path: 'dash', component: DashComponent, data: { animation: 'Dash' } },
 ];

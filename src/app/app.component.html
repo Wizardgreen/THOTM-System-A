@@ -11,6 +11,10 @@
     <mat-nav-list>
       <a [routerLink]="['/', 'member-list']" mat-list-item>會員列表</a>
     </mat-nav-list>
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+      <a (click)="logout()" mat-list-item>登出</a>
+    </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content [@routeAnimations]="prepareRoute(outlet)">
