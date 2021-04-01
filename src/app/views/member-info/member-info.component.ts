@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
+import {
+  AngularFireDatabase,
+  AngularFireObject,
+  AngularFireList,
+} from '@angular/fire/database';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -40,6 +44,7 @@ export class MemberInfoComponent implements OnInit {
   programList = Object.values(ProgramMap);
   ready = false;
   memberRef: AngularFireObject<MemberInfoType>;
+  storageListRef: AngularFireList<StorageInfoType[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,25 +57,31 @@ export class MemberInfoComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
       this.memberRef = this.db.object(`member/${param.id}`);
+      this.storageListRef = this.db.list('storage');
       this.fetchMemberInfo();
+      this.fetchStorageInfo();
+    });
+  }
+
+  fetchStorageInfo(): void {
+    this.storageListRef.valueChanges().subscribe((res) => {
+      console.log('res: ', res);
     });
   }
 
   fetchMemberInfo(): void {
-    this.memberRef
-      .valueChanges()
-      .subscribe(({ program, ...other }: MemberInfoType) => {
-        this.profile.patchValue(other);
-        this.currentProgram = program.current;
-        this.historyProgram = program.history.map(({ id, ...left }) => {
-          return {
-            ...left,
-            name: ProgramMap[id].viewValue,
-            id: ProgramMap[id].value,
-          };
-        });
-        this.ready = true;
+    this.memberRef.valueChanges().subscribe(({ program, ...other }) => {
+      this.profile.patchValue(other);
+      this.currentProgram = program.current;
+      this.historyProgram = program.history.map(({ id, ...left }) => {
+        return {
+          ...left,
+          name: ProgramMap[id].viewValue,
+          id: ProgramMap[id].value,
+        };
       });
+      this.ready = true;
+    });
   }
 
   updateMemberBasicInfo(): void {

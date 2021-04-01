@@ -38,3 +38,15 @@ declare interface ProgramRecordType {
   start: string;
   end: string;
 }
+
+declare interface StorageInfoType {
+  memberID: string;
+  memberName?: string;
+  startDate: string;
+  endDate: string;
+  ID: string;
+}
+
+declare interface StorageInfoMap {
+  [key: string]: StorageInfoType;
+}
