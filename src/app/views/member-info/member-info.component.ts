@@ -22,6 +22,7 @@ interface ProgramTableRowData extends ProgramRecordType {
   styleUrls: ['./member-info.component.scss'],
 })
 export class MemberInfoComponent implements OnInit {
+  memberID = '';
   profile = this.fb.group({
     name: [''],
     nickname: [''],
@@ -30,7 +31,6 @@ export class MemberInfoComponent implements OnInit {
     lineId: [''],
     phone: [''],
     email: [''],
-    storage: [''],
     expiryDate: [''],
     joinDate: [''],
     hasCard: [false],
@@ -43,8 +43,9 @@ export class MemberInfoComponent implements OnInit {
   locationList = LocationList;
   programList = Object.values(ProgramMap);
   ready = false;
-  memberRef: AngularFireObject<MemberInfoType>;
-  storageListRef: AngularFireList<StorageInfoType[]>;
+  memberMapRef: AngularFireObject<MemberInfoType>;
+  storageListRef: AngularFireList<StorageInfoType>;
+  visualizeStorage: StorageInfoType[][] = [[], [], [], []];
 
   constructor(
     private route: ActivatedRoute,
@@ -56,7 +57,8 @@ export class MemberInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
-      this.memberRef = this.db.object(`member/${param.id}`);
+      this.memberID = param.id;
+      this.memberMapRef = this.db.object(`member/${this.memberID}`);
       this.storageListRef = this.db.list('storage');
       this.fetchMemberInfo();
       this.fetchStorageInfo();
@@ -65,12 +67,23 @@ export class MemberInfoComponent implements OnInit {
 
   fetchStorageInfo(): void {
     this.storageListRef.valueChanges().subscribe((res) => {
-      console.log('res: ', res);
+      let pointer = 0;
+      res.forEach((item) => {
+        if (pointer === 4) {
+          pointer = 0;
+        }
+        const target = this.visualizeStorage[pointer];
+        if (target.length === 3) {
+          target.push({ ID: 'disabled' });
+        }
+        target.push(item);
+        pointer = pointer + 1;
+      });
     });
   }
 
   fetchMemberInfo(): void {
-    this.memberRef.valueChanges().subscribe(({ program, ...other }) => {
+    this.memberMapRef.valueChanges().subscribe(({ program, ...other }) => {
       this.profile.patchValue(other);
       this.currentProgram = program.current;
       this.historyProgram = program.history.map(({ id, ...left }) => {
@@ -86,9 +99,17 @@ export class MemberInfoComponent implements OnInit {
 
   updateMemberBasicInfo(): void {
     const payload = this.profile.getRawValue();
-    this.memberRef.update(payload).then(() => {
+    this.memberMapRef.update(payload).then(() => {
       this.openSnackBar('成功修改基本資料', '關閉');
     });
+  }
+
+  displayMemberLabel(storageInfo: StorageInfoType): string {
+    const { ID, memberNickname, memberName } = storageInfo;
+    if (storageInfo.ID === 'disabled') {
+      return '';
+    }
+    return memberNickname || memberName;
   }
 
   onDateChange({ value }, fieldName: string): void {
@@ -109,7 +130,7 @@ export class MemberInfoComponent implements OnInit {
       ],
     };
 
-    this.memberRef.update({ program: payload }).then(() => {
+    this.memberMapRef.update({ program: payload }).then(() => {
       this.openSnackBar('成功更新會籍', '關閉');
     });
   }

@@ -40,10 +40,11 @@ declare interface ProgramRecordType {
 }
 
 declare interface StorageInfoType {
-  memberID: string;
+  memberID?: string;
   memberName?: string;
-  startDate: string;
-  endDate: string;
+  memberNickname?: string;
+  startDate?: string;
+  endDate?: string;
   ID: string;
 }
 

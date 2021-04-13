@@ -3,13 +3,13 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./src",
-    "outDir": "./dist/out-tsc",
     "paths": {
       "@views/*": ["app/views/*"],
       "@components/*": ["app/components/*"],
       "@service/*": ["app/service/*"],
       "@utils/*": ["app/utils/*"]
     },
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,

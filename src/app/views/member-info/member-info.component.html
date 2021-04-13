@@ -2,7 +2,7 @@
 
 <app-page-wrapper [hidden]="ready === false">
   <mat-accordion>
-    <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel [expanded]="false">
       <mat-expansion-panel-header>
         <mat-panel-title>個人資料</mat-panel-title>
       </mat-expansion-panel-header>
@@ -66,10 +66,6 @@
               placeholder="pat@example.com"
               formControlName="email"
             />
-          </mat-form-field>
-          <mat-form-field appearance="standard">
-            <mat-label>櫃位</mat-label>
-            <input matInput formControlName="storage" />
           </mat-form-field>
         </app-row>
         <mat-form-field appearance="standard">
@@ -150,11 +146,27 @@
         <tr mat-row *matRowDef="let row; columns: programHeader"></tr>
       </table>
     </mat-expansion-panel>
-    <mat-expansion-panel [expanded]="false" disabled>
+    <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title> 櫃位 (尚未開放) </mat-panel-title>
+        <mat-panel-title> 櫃位 </mat-panel-title>
       </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
+      <div class="storage-wrapper">
+        <mat-button-toggle-group
+          *ngFor="let singleList of visualizeStorage"
+          #group="matButtonToggleGroup"
+          multiple
+        >
+          <mat-button-toggle
+            *ngFor="let storageInfo of singleList"
+            value="left"
+            [disabled]="
+              storageInfo.memberID && storageInfo.memberID !== memberID
+            "
+          >
+            {{ displayMemberLabel(storageInfo) }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]="false" disabled>
       <mat-expansion-panel-header>
