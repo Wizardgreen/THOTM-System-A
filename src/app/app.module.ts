@@ -3,7 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { MemberListComponent } from './views/member-list/member-list.component';
+
 import { MemberInfoComponent } from './views/member-info/member-info.component';
+import { ProgramUpdateDialogComponent } from './views/member-info/program-update-dialog/program-update-dialog.component';
+import { StorageUpdateDialogComponent } from './views/member-info/storage-update-dialog/storage-update-dialog.component';
 import { MemberCreateComponent } from './views/member-create/member-create.component';
 import { DashComponent } from './views/dash/dash.component';
 import { LoginComponent } from './views/login/login.component';
@@ -20,7 +23,6 @@ import { AppRoutingModule } from './module/app-routing.module';
 import { environment } from './../environments/environment';
 
 import { SharedMaterialModule } from './module/shared-material.module';
-import { ProgramUpdateDialogComponent } from './views/member-info/program-update-dialog/program-update-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { ProgramUpdateDialogComponent } from './views/member-info/program-update
     RowComponent,
     PageWrapperComponent,
     ProgramUpdateDialogComponent,
+    StorageUpdateDialogComponent,
   ],
   imports: [
     ReactiveFormsModule,

@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProgramEnum } from '@utils/enum';
 import * as moment from 'moment';
 
-interface DialogData {
+interface InjectData {
   programList: { value: string; viewValue: string }[];
 }
 
@@ -22,7 +22,7 @@ export class ProgramUpdateDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ProgramUpdateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: InjectData
   ) {}
 
   updatePeriod(month: number): void {

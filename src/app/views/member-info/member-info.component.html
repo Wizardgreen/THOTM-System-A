@@ -23,7 +23,7 @@
             matInput
             formControlName="birthday"
             [matDatepicker]="birthdayPicker"
-            (dateChange)="onDateChange($event, 'birthday')"
+            (dateChange)="handleDateChange($event, 'birthday')"
           />
           <mat-datepicker-toggle
             matSuffix
@@ -74,7 +74,7 @@
             matInput
             [matDatepicker]="joinDatePicker"
             formControlName="joinDate"
-            (dateChange)="onDateChange($event, 'joinDate')"
+            (dateChange)="handleDateChange($event, 'joinDate')"
           />
           <mat-datepicker-toggle
             matSuffix
@@ -114,7 +114,7 @@
         class="update-program"
         mat-flat-button
         color="warn"
-        (click)="openDialog()"
+        (click)="openProgramDialog()"
       >
         修改會籍
       </button>
@@ -151,21 +151,22 @@
         <mat-panel-title> 櫃位 </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="storage-wrapper">
-        <mat-button-toggle-group
-          *ngFor="let singleList of visualizeStorage"
-          #group="matButtonToggleGroup"
-          multiple
-        >
-          <mat-button-toggle
-            *ngFor="let storageInfo of singleList"
-            value="left"
-            [disabled]="
-              storageInfo.memberID && storageInfo.memberID !== memberID
-            "
+        <div class="storage-list" *ngFor="let singleList of visualizeStorage">
+          <button
+            class="storage-cell"
+            mat-raised-button
+            *ngFor="let info of singleList"
+            [color]="judgeCellColor(info)"
+            [value]="info.ID"
+            [disabled]="judgeStorageDisable(info)"
+            (click)="openStorageDialog(info)"
           >
-            {{ displayMemberLabel(storageInfo) }}
-          </mat-button-toggle>
-        </mat-button-toggle-group>
+            <span class="storage-num" *ngIf="info.ID !== 'disabled'">
+              {{ info.ID.slice(1) }}
+            </span>
+            {{ displayMemberLabel(info) }}
+          </button>
+        </div>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]="false" disabled>

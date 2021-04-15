@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   animations: [slideInAnimation],
 })
 export class AppComponent {
-  title: string = 'THOTM-System-A';
+  title = 'THOTM-System-A';
 
   constructor(private auth: AuthService, private router: Router) {
     console.log(router.url);

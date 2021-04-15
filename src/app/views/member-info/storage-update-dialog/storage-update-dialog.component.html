@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>更新櫃位</h2>
+<div mat-dialog-content>
+  <div class="wrapper">
+    為會員
+    {{ data.storageInfo.memberNickname || data.storageInfo.memberName }} 註冊至
+    {{ data.storageInfo.ID.slice(1) }} 號櫃位，租期為
+    <input
+      matInput
+      type="number"
+      min="1"
+      max="6"
+      (change)="onChange($event)"
+      [formControl]="range"
+    />
+    個月。
+  </div>
+  <p>開始日期：</p>
+  <p>結束日期：</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">取消</button>
+  <button
+    mat-button
+    [mat-dialog-close]="getUpdateProgram"
+    [disabled]="range.value === '-'"
+  >
+    確定修改
+  </button>
+</div>

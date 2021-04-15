@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { ProgramUpdateDialogComponent } from './program-update-dialog/program-update-dialog.component';
+import { StorageUpdateDialogComponent } from './storage-update-dialog/storage-update-dialog.component';
 import { ProgramMap, LocationList } from '@utils/maps';
 
 interface ProgramTableRowData extends ProgramRecordType {
@@ -104,20 +105,68 @@ export class MemberInfoComponent implements OnInit {
     });
   }
 
+  judgeStorageDisable(storageInfo: StorageInfoType): boolean {
+    if (storageInfo.ID === 'disabled') {
+      return true;
+    }
+    return false;
+  }
+
+  judgeCellColor(storageInfo: StorageInfoType): string {
+    if (storageInfo.memberID === this.memberID) {
+      return 'primary';
+    }
+    if (storageInfo.memberID && storageInfo.memberID !== this.memberID) {
+      return 'warn';
+    }
+    return '';
+  }
+
   displayMemberLabel(storageInfo: StorageInfoType): string {
     const { ID, memberNickname, memberName } = storageInfo;
-    if (storageInfo.ID === 'disabled') {
+    if (ID === 'disabled') {
       return '';
     }
     return memberNickname || memberName;
   }
 
-  onDateChange({ value }, fieldName: string): void {
+  openStorageDialog(storageInfo: StorageInfoType): void {
+    const action = storageInfo.memberID ? 'remove' : 'add';
+    const lesseeInfo = {
+      memberID: storageInfo.memberID,
+      memberName: storageInfo.memberName,
+      memberNickname: storageInfo.memberNickname,
+    };
+
+    if (action === 'add') {
+      lesseeInfo.memberID = this.memberID;
+      lesseeInfo.memberName = this.profile.get('name').value;
+      lesseeInfo.memberNickname = this.profile.get('nickname').value;
+    }
+
+    const dialogRef = this.dialog.open(StorageUpdateDialogComponent, {
+      width: '450px',
+      data: {
+        action,
+        storageInfo,
+        lesseeInfo,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (newProgram: ProgramRecordType) => {
+        console.log('close');
+
+        // if (newProgram) {
+        //   this.updateMemberProgram(newProgram);
+        // }
+      },
+    });
+  }
+
+  handleDateChange({ value }, fieldName: string): void {
     const formatDate = moment(value).format('YYYY-MM-DD');
     this.profile.patchValue({ [fieldName]: formatDate });
-    // if (this.basicInfoModified === false) {
-    //   this.basicInfoModified = true;
-    // }
   }
 
   updateMemberProgram(newProgram: ProgramRecordType): void {
@@ -135,7 +184,7 @@ export class MemberInfoComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openProgramDialog(): void {
     const dialogRef = this.dialog.open(ProgramUpdateDialogComponent, {
       width: '450px',
       data: {
