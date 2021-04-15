@@ -1,29 +1,30 @@
-<h2 mat-dialog-title>更新櫃位</h2>
+<h2 mat-dialog-title>修改櫃位</h2>
 <div mat-dialog-content>
-  <div class="wrapper">
+  <div *ngIf="data.rented === false" class="wrapper">
     為會員
-    {{ data.storageInfo.memberNickname || data.storageInfo.memberName }} 註冊至
+    {{ data.lesseeInfo.memberNickname || data.lesseeInfo.memberName }} 註冊至
     {{ data.storageInfo.ID.slice(1) }} 號櫃位，租期為
     <input
       matInput
       type="number"
       min="1"
       max="6"
-      (change)="onChange($event)"
-      [formControl]="range"
+      (ngModelChange)="handleDurationChange()"
+      [formControl]="duration"
     />
     個月。
   </div>
-  <p>開始日期：</p>
-  <p>結束日期：</p>
+  <p class="start-date">開始日期：{{ startDate ? startDate : "-" }}</p>
+  <p class="end-date">結束日期：{{ endDate ? endDate : "-" }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">取消</button>
   <button
     mat-button
-    [mat-dialog-close]="getUpdateProgram"
-    [disabled]="range.value === '-'"
+    color="primary"
+    [mat-dialog-close]="newStorageInfo"
+    [disabled]="duration.value === '-'"
   >
-    確定修改
+    確定出租
   </button>
 </div>

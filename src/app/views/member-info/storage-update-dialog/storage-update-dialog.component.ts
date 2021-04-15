@@ -3,8 +3,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
 
-interface InjectData {
+interface InjectDataType {
+  rented: boolean;
   storageInfo: StorageInfoType;
+  lesseeInfo: {
+    memberID: string;
+    memberName: string;
+    memberNickname: string;
+  };
 }
 
 @Component({
@@ -12,6 +18,7 @@ interface InjectData {
   templateUrl: './storage-update-dialog.component.html',
   styles: [
     '.mat-dialog-actions { justify-content: flex-end}',
+    '.wrapper { margin-bottom: 12px }',
     `
       .wrapper > input {
         width: 25px;
@@ -21,27 +28,30 @@ interface InjectData {
   ],
 })
 export class StorageUpdateDialogComponent {
-  range = new FormControl('-');
-  start: string;
-  end: string;
+  duration = new FormControl('-');
+  startDate: string;
+  endDate: string;
 
   constructor(
     public dialogRef: MatDialogRef<StorageUpdateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: InjectData
+    @Inject(MAT_DIALOG_DATA) public data: InjectDataType
   ) {}
 
-  updatePeriod(month: number): void {
+  handleDurationChange(): void {
+    const duration = this.duration.value;
     const today = moment();
-    this.start = today.format('YYYY-MM-DD');
-    this.end = today.add(month, 'M').format('YYYY-MM-DD');
+    this.startDate = today.format('YYYY-MM-DD');
+    this.endDate = today.add(duration, 'M').format('YYYY-MM-DD');
   }
 
-  onChange(event: HTMLInputElement): void {}
-
-  get getUpdateProgram(): any {
+  get newStorageInfo(): StorageInfoType {
     return {
-      end: this.end,
-      start: this.start,
+      ID: this.data.storageInfo.ID,
+      endDate: this.endDate,
+      startDate: this.startDate,
+      memberID: this.data.lesseeInfo.memberID,
+      memberName: this.data.lesseeInfo.memberName,
+      memberNickname: this.data.lesseeInfo.memberNickname,
     };
   }
 

@@ -68,18 +68,22 @@ export class MemberInfoComponent implements OnInit {
 
   fetchStorageInfo(): void {
     this.storageListRef.valueChanges().subscribe((res) => {
+      const payload = [[], [], [], []];
+
       let pointer = 0;
       res.forEach((item) => {
         if (pointer === 4) {
           pointer = 0;
         }
-        const target = this.visualizeStorage[pointer];
+        const target = payload[pointer];
         if (target.length === 3) {
           target.push({ ID: 'disabled' });
         }
         target.push(item);
         pointer = pointer + 1;
       });
+
+      this.visualizeStorage = payload;
     });
   }
 
@@ -131,14 +135,14 @@ export class MemberInfoComponent implements OnInit {
   }
 
   openStorageDialog(storageInfo: StorageInfoType): void {
-    const action = storageInfo.memberID ? 'remove' : 'add';
+    const rented = storageInfo.memberID ? true : false;
     const lesseeInfo = {
       memberID: storageInfo.memberID,
       memberName: storageInfo.memberName,
       memberNickname: storageInfo.memberNickname,
     };
 
-    if (action === 'add') {
+    if (rented === false) {
       lesseeInfo.memberID = this.memberID;
       lesseeInfo.memberName = this.profile.get('name').value;
       lesseeInfo.memberNickname = this.profile.get('nickname').value;
@@ -147,19 +151,19 @@ export class MemberInfoComponent implements OnInit {
     const dialogRef = this.dialog.open(StorageUpdateDialogComponent, {
       width: '450px',
       data: {
-        action,
+        rented,
         storageInfo,
         lesseeInfo,
       },
     });
 
     dialogRef.afterClosed().subscribe({
-      next: (newProgram: ProgramRecordType) => {
-        console.log('close');
+      next: (newStorageInfo: StorageInfoType) => {
+        if (newStorageInfo === undefined) {
+          return;
+        }
 
-        // if (newProgram) {
-        //   this.updateMemberProgram(newProgram);
-        // }
+        this.storageListRef.update(newStorageInfo.ID, newStorageInfo);
       },
     });
   }
