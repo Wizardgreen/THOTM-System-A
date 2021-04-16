@@ -121,7 +121,7 @@ export class MemberInfoComponent implements OnInit {
       return 'primary';
     }
     if (storageInfo.memberID && storageInfo.memberID !== this.memberID) {
-      return 'warn';
+      return 'accent';
     }
     return '';
   }

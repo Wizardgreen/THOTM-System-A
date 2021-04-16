@@ -38,14 +38,15 @@ export class StorageUpdateDialogComponent {
   ) {}
 
   handleDurationChange(): void {
+    // TODO:增加延期的判斷
     const duration = this.duration.value;
     const today = moment();
     this.startDate = today.format('YYYY-MM-DD');
     this.endDate = today.add(duration, 'M').format('YYYY-MM-DD');
   }
 
-  get newStorageInfo(): StorageInfoType {
-    return {
+  createNewStorageInfo(action: 'add' | 'remove' | 'extend'): StorageInfoType {
+    const newStorageInfo = {
       ID: this.data.storageInfo.ID,
       endDate: this.endDate,
       startDate: this.startDate,
@@ -53,6 +54,21 @@ export class StorageUpdateDialogComponent {
       memberName: this.data.lesseeInfo.memberName,
       memberNickname: this.data.lesseeInfo.memberNickname,
     };
+    switch (action) {
+      case 'add':
+      case 'extend':
+        break;
+      case 'remove':
+        newStorageInfo.endDate = '';
+        newStorageInfo.startDate = '';
+        newStorageInfo.memberID = '';
+        newStorageInfo.memberName = '';
+        newStorageInfo.memberNickname = '';
+        break;
+      default:
+        throw new Error('createNewStorageInfo 的 action 出錯了');
+    }
+    return newStorageInfo;
   }
 
   onNoClick(): void {
