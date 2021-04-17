@@ -150,10 +150,11 @@
       <mat-expansion-panel-header>
         <mat-panel-title> 櫃位 </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="storage-wrapper">
-        <div class="storage-list" *ngFor="let singleList of visualizeStorage">
+      <div class="storage storage__wrapper">
+        <div class="storage__list" *ngFor="let singleList of visualizeStorage">
+          <!-- TODO:快到期與過期顏色警告 -->
           <button
-            class="storage-cell"
+            class="storage__cell"
             mat-raised-button
             *ngFor="let info of singleList"
             [color]="judgeCellColor(info)"
@@ -161,7 +162,7 @@
             [disabled]="judgeStorageDisable(info)"
             (click)="openStorageDialog(info)"
           >
-            <span class="storage-num" *ngIf="info.ID !== 'disabled'">
+            <span class="storage__num" *ngIf="info.ID !== 'disabled'">
               {{ info.ID.slice(1) }}
             </span>
             {{ displayMemberLabel(info) }}

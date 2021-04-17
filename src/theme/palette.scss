@@ -8,15 +8,15 @@ $accent: mat-palette($mat-blue-grey, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $warn: mat-palette($mat-amber);
+// $error: mat-palette($mat-red);
 
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as `color` or `typography`.
 $theme: mat-light-theme(
   (
     color: (
       primary: $primary,
       accent: $accent,
       warn: $warn,
+      // error: $error,
     ),
   )
 );
