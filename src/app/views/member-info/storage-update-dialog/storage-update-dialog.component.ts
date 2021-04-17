@@ -16,21 +16,13 @@ interface InjectDataType {
 @Component({
   selector: 'app-storage-update-dialog',
   templateUrl: './storage-update-dialog.component.html',
-  styles: [
-    '.mat-dialog-actions { justify-content: flex-end}',
-    '.wrapper { margin-bottom: 12px }',
-    `
-      .wrapper > input {
-        width: 25px;
-        padding-left: 15px;
-      }
-    `,
-  ],
+  styleUrls: ['./storage-update-dialog.component.scss'],
 })
 export class StorageUpdateDialogComponent {
-  duration = new FormControl('-');
+  duration = new FormControl(null);
   startDate: string;
   endDate: string;
+  extendDate: string;
 
   constructor(
     public dialogRef: MatDialogRef<StorageUpdateDialogComponent>,
@@ -38,25 +30,38 @@ export class StorageUpdateDialogComponent {
   ) {}
 
   handleDurationChange(): void {
-    // TODO:增加延期的判斷
     const duration = this.duration.value;
-    const today = moment();
-    this.startDate = today.format('YYYY-MM-DD');
-    this.endDate = today.add(duration, 'M').format('YYYY-MM-DD');
+
+    if (this.data.rented) {
+      const endDate = moment(this.data.storageInfo.endDate);
+      this.extendDate = endDate
+        .add(1, 'day')
+        .add(duration, 'M')
+        .format('YYYY-MM-DD');
+    }
+
+    if (this.data.rented === false) {
+      const today = moment();
+      this.startDate = today.format('YYYY-MM-DD');
+      this.endDate = today.add(duration, 'M').format('YYYY-MM-DD');
+    }
   }
 
   createNewStorageInfo(action: 'add' | 'remove' | 'extend'): StorageInfoType {
     const newStorageInfo = {
       ID: this.data.storageInfo.ID,
-      endDate: this.endDate,
       startDate: this.startDate,
+      endDate: this.endDate,
       memberID: this.data.lesseeInfo.memberID,
       memberName: this.data.lesseeInfo.memberName,
       memberNickname: this.data.lesseeInfo.memberNickname,
     };
     switch (action) {
       case 'add':
+        break;
       case 'extend':
+        newStorageInfo.startDate = this.data.storageInfo.startDate;
+        newStorageInfo.endDate = this.extendDate;
         break;
       case 'remove':
         newStorageInfo.endDate = '';

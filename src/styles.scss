@@ -21,3 +21,9 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.text {
+  &--bold {
+    font-weight: bold;
+  }
+}

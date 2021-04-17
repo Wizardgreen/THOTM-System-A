@@ -159,6 +159,7 @@ export class MemberInfoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe({
       next: (newStorageInfo: StorageInfoType) => {
+        console.log('newStorageInfo: ', newStorageInfo);
         if (newStorageInfo === undefined) {
           return;
         }
