@@ -117,8 +117,12 @@ export class MemberInfoComponent implements OnInit {
   }
 
   judgeCellColor(storageInfo: StorageInfoType): string {
-    if (moment().isAfter(storageInfo.endDate)) {
+    const today = moment();
+    if (today.isAfter(storageInfo.endDate)) {
       return 'error';
+    }
+    if (today.add(7, 'days').isAfter(storageInfo.endDate)) {
+      return 'warn';
     }
     if (storageInfo.memberID === this.memberID) {
       return 'primary';
