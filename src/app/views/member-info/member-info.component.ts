@@ -117,11 +117,14 @@ export class MemberInfoComponent implements OnInit {
   }
 
   judgeCellColor(storageInfo: StorageInfoType): string {
+    if (moment().isAfter(storageInfo.endDate)) {
+      return 'error';
+    }
     if (storageInfo.memberID === this.memberID) {
       return 'primary';
     }
     if (storageInfo.memberID && storageInfo.memberID !== this.memberID) {
-      return 'error';
+      return 'accent';
     }
     return '';
   }

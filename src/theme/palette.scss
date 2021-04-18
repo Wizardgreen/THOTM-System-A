@@ -8,7 +8,6 @@ $accent: mat-palette($mat-blue-grey, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $warn: mat-palette($mat-amber);
-// $error: mat-palette($mat-red);
 
 $theme: mat-light-theme(
   (
@@ -16,7 +15,6 @@ $theme: mat-light-theme(
       primary: $primary,
       accent: $accent,
       warn: $warn,
-      // error: $error,
     ),
   )
 );

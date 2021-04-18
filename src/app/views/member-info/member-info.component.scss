@@ -15,8 +15,7 @@
   margin-left: 40px;
 }
 
-$red: #db4c77;
-$blue: #4e88d3;
+$red: #d32f2f;
 $smoke: #444;
 .storage {
   &__wrapper {
@@ -32,6 +31,13 @@ $smoke: #444;
     flex: 1;
     color: $smoke;
     &.mat-primary {
+      color: whitesmoke;
+      .storage__num {
+        color: whitesmoke;
+      }
+    }
+    &.mat-error {
+      background-color: $red;
       color: whitesmoke;
       .storage__num {
         color: whitesmoke;

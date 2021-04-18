@@ -8,6 +8,7 @@
     {{ data.rented ? "移出" : "註冊至" }}
     <span class="text--bold">{{ data.storageInfo.ID.slice(1) }}</span>
     號櫃位，{{ data.rented ? "或延長租約" : "租期為" }}
+    <!-- TODO:限制選項，僅有 1/3/6 可選 -->
     <input
       matInput
       type="number"
@@ -29,7 +30,7 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-flat-button color="warn" (click)="onNoClick()">取消</button>
+  <button mat-flat-button color="error" (click)="onNoClick()">取消</button>
   <button
     mat-button
     *ngIf="data.rented === false"
