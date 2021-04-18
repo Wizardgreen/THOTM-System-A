@@ -3,8 +3,8 @@
 }
 .function-wrapper {
   margin-bottom: 12px;
-  > input {
-    width: 25px;
-    padding-left: 15px;
+  > .duration-select {
+    width: 40px;
+    text-align: center;
   }
 }

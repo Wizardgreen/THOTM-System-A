@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
 
 interface InjectDataType {
@@ -19,19 +18,16 @@ interface InjectDataType {
   styleUrls: ['./storage-update-dialog.component.scss'],
 })
 export class StorageUpdateDialogComponent {
-  duration = new FormControl(null);
-  startDate: string;
-  endDate: string;
-  extendDate: string;
+  startDate: string = null;
+  endDate: string = null;
+  extendDate: string = null;
 
   constructor(
     public dialogRef: MatDialogRef<StorageUpdateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InjectDataType
   ) {}
 
-  handleDurationChange(): void {
-    const duration = this.duration.value;
-
+  handleDurationChange(duration): void {
     if (this.data.rented) {
       const endDate = moment(this.data.storageInfo.endDate);
       this.extendDate = endDate
