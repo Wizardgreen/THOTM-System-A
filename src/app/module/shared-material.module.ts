@@ -4,7 +4,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +23,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatListModule } from '@angular/material/list';
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -57,6 +59,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatDialogModule,
     LayoutModule,
     MatButtonToggleModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
   ],
 })
 export class SharedMaterialModule {}

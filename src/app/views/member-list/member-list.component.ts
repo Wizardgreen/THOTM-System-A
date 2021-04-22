@@ -1,10 +1,13 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { AlertSheetComponent } from './alert-sheet/alert-sheet.component';
 import { ProgramMap } from '../../utils/maps';
+import { isValidDate, willExpireIn7Days, moment } from '@utils/moment';
 
 @Component({
   selector: 'app-member-list',
@@ -16,8 +19,10 @@ export class MemberListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ready = false;
+  storageListRef: AngularFireList<StorageInfoType[]>;
   dataSource = new MatTableDataSource<MemberInfoType>();
   dataLength: number;
+  alertList: any[] = [];
   columnsToDisplay: string[] = [
     'id',
     'name',
@@ -29,35 +34,113 @@ export class MemberListComponent implements OnInit {
     'view',
   ];
 
-  constructor(private router: Router, private db: AngularFireDatabase) {}
+  constructor(
+    private router: Router,
+    private db: AngularFireDatabase,
+    private bottomSheet: MatBottomSheet
+  ) {}
 
   ngOnInit(): void {
     this.db
       .list('member')
       .valueChanges()
       .subscribe({
-        next: (data: MemberInfoType[]) => {
-          this.dataSource.data = data.map(({ program, ...other }) => {
-            const currentProgram = program.current;
-            return {
-              ...other,
-              program: ProgramMap[currentProgram.id].viewValue,
-              expiryDate: currentProgram.end,
-            };
-          });
-          this.dataSource.paginator = this.paginator;
-          this.dataLength = data.length;
-          this.dataSource.sort = this.sort;
+        next: (res: MemberInfoType[]) => {
+          this.setTableData(res);
+          this.setProgramToAlertList(res);
           this.ready = true;
         },
       });
+    this.db
+      .list('storage')
+      .valueChanges()
+      .subscribe({
+        next: (res: StorageInfoType[]) => {
+          this.setStorageToAlertList(res);
+        },
+      });
+  }
 
-    this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
-      const matchedName = data.name.toLocaleLowerCase().indexOf(filter) !== -1;
+  setTableData(data: MemberInfoType[]): void {
+    this.dataSource.data = data.map(({ program, ...other }) => {
+      // mapping 會員方案的名稱
+      const currentProgram = program.current;
+      return {
+        ...other,
+        program: ProgramMap[currentProgram.id].viewValue,
+        expiryDate: currentProgram.end,
+      };
+    });
+    this.dataSource.paginator = this.paginator;
+    this.dataLength = data.length;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = (
+      member: MemberInfoType,
+      filter: string
+    ): boolean => {
+      const matchedName =
+        member.name.toLocaleLowerCase().indexOf(filter) !== -1;
       const matchedNickName =
-        data.nickname.toLocaleLowerCase().indexOf(filter) !== -1;
+        member.nickname.toLocaleLowerCase().indexOf(filter) !== -1;
       return matchedNickName || matchedName;
     };
+  }
+
+  sortAlertList(): void {
+    this.alertList = this.alertList.sort((current, next) => {
+      const currentDate = moment(current.endDate);
+      const nextDate = next.endDate;
+      if (currentDate.isBefore(nextDate)) {
+        return -1;
+      }
+      if (currentDate.isAfter(nextDate)) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  setStorageToAlertList(data: StorageInfoType[]): void {
+    const cache = data
+      .filter(({ endDate: endDateString }) => {
+        if (isValidDate(endDateString) && willExpireIn7Days(endDateString)) {
+          return true;
+        }
+        return false;
+      })
+      .map(({ memberID, memberName, memberNickname, endDate }) => {
+        return {
+          memberID,
+          memberName,
+          memberNickname,
+          endDate,
+          type: 'storage',
+        };
+      });
+    this.alertList = this.alertList.concat(cache);
+    this.sortAlertList();
+  }
+
+  setProgramToAlertList(data: MemberInfoType[]): void {
+    const cache = data
+      .filter(({ program }) => {
+        const endDateString = program?.current?.end;
+        if (isValidDate(endDateString) && willExpireIn7Days(endDateString)) {
+          return true;
+        }
+        return false;
+      })
+      .map((member) => {
+        return {
+          memberID: member.id,
+          memberName: member.name,
+          memberNickname: member.nickname,
+          endDate: member.program.current.end,
+          type: 'program',
+        };
+      });
+    this.alertList = this.alertList.concat(cache);
+    this.sortAlertList();
   }
 
   applyFilter(event: Event): void {
@@ -70,7 +153,11 @@ export class MemberListComponent implements OnInit {
     this.router.navigate(['member-create', { newID }]);
   }
 
-  viewMember(memberID: string): void {
+  toMemberInfo(memberID: string): void {
     this.router.navigate(['member-list', memberID]);
+  }
+
+  showAlertSheet(): void {
+    this.bottomSheet.open(AlertSheetComponent);
   }
 }

@@ -166,12 +166,13 @@ export class MemberInfoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe({
       next: (newStorageInfo: StorageInfoType) => {
-        console.log('newStorageInfo: ', newStorageInfo);
         if (newStorageInfo === undefined) {
           return;
         }
 
-        this.storageListRef.update(newStorageInfo.ID, newStorageInfo);
+        this.storageListRef
+          .update(newStorageInfo.ID, newStorageInfo)
+          .then(() => this.openSnackBar('成功更新櫃位資訊', '關閉'));
       },
     });
   }

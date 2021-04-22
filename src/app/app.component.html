@@ -6,8 +6,12 @@
   <span class="toolbar-separator"></span>
 </mat-toolbar>
 
-<mat-sidenav-container class="app-sidenav-container" autosize>
-  <mat-sidenav #sideNav class="app-sidenav" fixedTopGap="20" mode="side">
+<mat-sidenav-container
+  class="app-sidenav-container"
+  autosize
+  [hasBackdrop]="true"
+>
+  <mat-sidenav #sideNav class="app-sidenav" fixedTopGap="20" mode="over">
     <mat-nav-list>
       <a [routerLink]="['/', 'member-list']" mat-list-item>會員列表</a>
     </mat-nav-list>
