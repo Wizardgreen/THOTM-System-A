@@ -1,6 +1,6 @@
-<app-spinner [enable]="ready === false"></app-spinner>
+<app-spinner [enable]="memberReady === false"></app-spinner>
 
-<app-page-wrapper [hidden]="ready === false">
+<app-page-wrapper [hidden]="memberReady === false">
   <mat-form-field class="search-field">
     <mat-label>搜尋姓名、暱稱</mat-label>
     <input matInput #filter (keyup)="applyFilter($event)" />
@@ -70,14 +70,15 @@
     aria-label="icon button for create member"
     [matMenuTriggerFor]="menu"
   >
-    <mat-icon>more_horiz</mat-icon>
+    <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="toMemberCreate()">
       <mat-icon>add</mat-icon>新增會員
     </button>
     <button mat-menu-item (click)="showAlertSheet()">
-      <mat-icon matBadge="15" matBadgeColor="warn">campaign</mat-icon
+      <mat-icon [matBadge]="alertList.length" matBadgeColor="warn"
+        >campaign</mat-icon
       >櫃位與方案到期
     </button>
   </mat-menu>

@@ -7,7 +7,12 @@ import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AlertSheetComponent } from './alert-sheet/alert-sheet.component';
 import { ProgramMap } from '../../utils/maps';
-import { isValidDate, willExpireIn7Days, moment } from '@utils/moment';
+import {
+  isValidDate,
+  willExpireIn7Days,
+  moment,
+  isExpired,
+} from '@utils/moment';
 
 @Component({
   selector: 'app-member-list',
@@ -18,7 +23,8 @@ export class MemberListComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  ready = false;
+  memberReady = false;
+  storageReady = false;
   storageListRef: AngularFireList<StorageInfoType[]>;
   dataSource = new MatTableDataSource<MemberInfoType>();
   dataLength: number;
@@ -48,7 +54,10 @@ export class MemberListComponent implements OnInit {
         next: (res: MemberInfoType[]) => {
           this.setTableData(res);
           this.setProgramToAlertList(res);
-          this.ready = true;
+          this.memberReady = true;
+          if (this.memberReady && this.storageReady) {
+            this.sortAlertList();
+          }
         },
       });
     this.db
@@ -57,6 +66,10 @@ export class MemberListComponent implements OnInit {
       .subscribe({
         next: (res: StorageInfoType[]) => {
           this.setStorageToAlertList(res);
+          this.storageReady = true;
+          if (this.memberReady && this.storageReady) {
+            this.sortAlertList();
+          }
         },
       });
   }
@@ -113,12 +126,12 @@ export class MemberListComponent implements OnInit {
           memberID,
           memberName,
           memberNickname,
-          endDate,
+          endDate: moment(endDate).format('YYYY-MM-DD'),
+          isExpired: isExpired(endDate),
           type: 'storage',
         };
       });
     this.alertList = this.alertList.concat(cache);
-    this.sortAlertList();
   }
 
   setProgramToAlertList(data: MemberInfoType[]): void {
@@ -131,16 +144,17 @@ export class MemberListComponent implements OnInit {
         return false;
       })
       .map((member) => {
+        const endDate = member.program.current.end;
         return {
           memberID: member.id,
           memberName: member.name,
           memberNickname: member.nickname,
-          endDate: member.program.current.end,
+          endDate: moment(endDate).format('YYYY-MM-DD'),
+          isExpired: isExpired(endDate),
           type: 'program',
         };
       });
     this.alertList = this.alertList.concat(cache);
-    this.sortAlertList();
   }
 
   applyFilter(event: Event): void {
@@ -158,6 +172,10 @@ export class MemberListComponent implements OnInit {
   }
 
   showAlertSheet(): void {
-    this.bottomSheet.open(AlertSheetComponent);
+    this.bottomSheet.open(AlertSheetComponent, {
+      data: {
+        alertList: this.alertList,
+      },
+    });
   }
 }

@@ -23,6 +23,7 @@ interface ProgramTableRowData extends ProgramRecordType {
   styleUrls: ['./member-info.component.scss'],
 })
 export class MemberInfoComponent implements OnInit {
+  defaultSection: 'program' | 'storage' = null;
   memberID = '';
   profile = this.fb.group({
     name: [''],
@@ -63,6 +64,11 @@ export class MemberInfoComponent implements OnInit {
       this.storageListRef = this.db.list('storage');
       this.fetchMemberInfo();
       this.fetchStorageInfo();
+    });
+    this.route.queryParams.subscribe(({ section }) => {
+      if (section) {
+        this.defaultSection = section;
+      }
     });
   }
 
