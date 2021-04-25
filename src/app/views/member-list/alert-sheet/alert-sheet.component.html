@@ -1,9 +1,10 @@
-<mat-nav-list>
+<mat-nav-list dense>
   <div mat-subheader>已過期</div>
-  <ng-container *ngFor="let alert of data.alertList">
+  <mat-divider></mat-divider>
+  <ng-container *ngIf="expiredList">
     <a
       mat-list-item
-      *ngIf="alert.isExpired"
+      *ngFor="let alert of expiredList"
       (click)="toMemberInfo(alert.memberID, alert.type)"
     >
       <div class="des-wrapper">
@@ -15,6 +16,21 @@
       </div>
     </a>
   </ng-container>
-  <mat-divider></mat-divider>
-  <div mat-subheader>七天內到期</div>
+  <ng-container *ngIf="willExpireList.length">
+    <div mat-subheader>七天內到期</div>
+    <mat-divider></mat-divider>
+    <a
+      mat-list-item
+      *ngFor="let alert of willExpireList"
+      (click)="toMemberInfo(alert.memberID, alert.type)"
+    >
+      <div class="des-wrapper">
+        <span>{{ alert.memberNickname || alert.memberName }}</span>
+        <span
+          >{{ alert.type === "program" ? "方案" : "櫃位" }} 已在
+          {{ alert.endDate }} 到期
+        </span>
+      </div>
+    </a>
+  </ng-container>
 </mat-nav-list>

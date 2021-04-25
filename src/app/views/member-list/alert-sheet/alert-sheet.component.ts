@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  MatBottomSheetRef,
+  // MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material/bottom-sheet';
 
@@ -22,7 +22,7 @@ interface AlertListType {
 export class AlertSheetComponent {
   constructor(
     private router: Router,
-    private bottomSheetRef: MatBottomSheetRef<AlertSheetComponent>,
+    // private bottomSheetRef: MatBottomSheetRef<AlertSheetComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: { alertList: AlertListType[] }
   ) {
     console.log(data);
@@ -33,9 +33,14 @@ export class AlertSheetComponent {
       section: type,
     };
     this.router.navigate(['member-list', memberID], { queryParams });
+    // this.bottomSheetRef.dismiss();
   }
-  openLink(event: MouseEvent): void {
-    this.bottomSheetRef.dismiss();
-    event.preventDefault();
+
+  get expiredList(): AlertListType[] {
+    return this.data.alertList.filter((item) => item.isExpired);
+  }
+
+  get willExpireList(): AlertListType[] {
+    return this.data.alertList.filter((item) => item.isExpired === false);
   }
 }

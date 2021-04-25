@@ -52,6 +52,9 @@ export class MemberListComponent implements OnInit {
       .valueChanges()
       .subscribe({
         next: (res: MemberInfoType[]) => {
+          if (this.memberReady === true) {
+            return;
+          }
           this.setTableData(res);
           this.setProgramToAlertList(res);
           this.memberReady = true;
@@ -65,6 +68,9 @@ export class MemberListComponent implements OnInit {
       .valueChanges()
       .subscribe({
         next: (res: StorageInfoType[]) => {
+          if (this.storageReady === true) {
+            return;
+          }
           this.setStorageToAlertList(res);
           this.storageReady = true;
           if (this.memberReady && this.storageReady) {
