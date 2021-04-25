@@ -10,7 +10,7 @@ export function isValidDate(dateString: string): boolean {
 
 export function willExpireIn7Days(dateString: string): boolean {
   const now = _moment();
-  return _moment(dateString).add(7, 'days').isBefore(now);
+  return _moment(now).add(7, 'days').isAfter(dateString);
 }
 
 export function isExpired(dateString: string): boolean {

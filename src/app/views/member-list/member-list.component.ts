@@ -138,6 +138,7 @@ export class MemberListComponent implements OnInit {
         };
       });
     this.alertList = this.alertList.concat(cache);
+    console.log(this.alertList);
   }
 
   setProgramToAlertList(data: MemberInfoType[]): void {
@@ -161,6 +162,7 @@ export class MemberListComponent implements OnInit {
         };
       });
     this.alertList = this.alertList.concat(cache);
+    console.log(this.alertList);
   }
 
   applyFilter(event: Event): void {

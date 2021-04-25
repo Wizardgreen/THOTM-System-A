@@ -97,13 +97,17 @@ export class MemberInfoComponent implements OnInit {
     this.memberMapRef.valueChanges().subscribe(({ program, ...other }) => {
       this.profile.patchValue(other);
       this.currentProgram = program.current;
-      this.historyProgram = program.history.map(({ id, ...left }) => {
-        return {
-          ...left,
-          name: ProgramMap[id].viewValue,
-          id: ProgramMap[id].value,
-        };
-      });
+      if (program.history) {
+        this.historyProgram = program.history.map(({ id, ...left }) => {
+          return {
+            ...left,
+            name: ProgramMap[id].viewValue,
+            id: ProgramMap[id].value,
+          };
+        });
+      } else {
+        this.historyProgram = [];
+      }
       this.ready = true;
     });
   }
