@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/.firebase
 # Only exists if Bazel was run
 /bazel-out
 
@@ -48,3 +49,4 @@ Thumbs.db
 
 # ENV
 src/environments/extend.ts
+
