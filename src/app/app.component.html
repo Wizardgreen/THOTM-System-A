@@ -2,8 +2,10 @@
   <button mat-icon-button (click)="sideNav.toggle()">
     <mat-icon>{{ sideNav.opened ? "close" : "menu" }}</mat-icon>
   </button>
-  <span>{{ title | uppercase }}</span>
-  <span class="toolbar-separator"></span>
+  <a mat-button [routerLink]="['/', 'home']"
+    ><h1>{{ title | uppercase }}</h1></a
+  >
+  <!-- <span class="toolbar-separator"></span> -->
 </mat-toolbar>
 
 <mat-sidenav-container

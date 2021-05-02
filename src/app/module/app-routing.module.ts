@@ -9,10 +9,11 @@ import { MemberInfoComponent } from '@views/member-info/member-info.component';
 import { MemberListComponent } from '@views/member-list/member-list.component';
 import { MemberCreateComponent } from '@views/member-create/member-create.component';
 import { LoginComponent } from '@views/login/login.component';
+import { HomeComponent } from '@views/home/home.component';
 
 // import { DashComponent } from '@views/dash/dash.component';
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-const redirectLoggedInToMemberList = () => redirectLoggedInTo(['member-list']);
+const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
 const routes: Routes = [
   {
     path: 'member-list',
@@ -42,10 +43,19 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
   },
   {
+    path: 'home',
+    component: HomeComponent,
+    data: {
+      animation: 'MemberCreate',
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+    canActivate: [AngularFireAuthGuard],
+  },
+  {
     path: 'login',
     component: LoginComponent,
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedInToMemberList },
+    data: { authGuardPipe: redirectLoggedInToHome },
   },
   {
     path: '**',

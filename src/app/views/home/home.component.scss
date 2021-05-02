@@ -1,0 +1,21 @@
+.home-page-wrapper {
+  height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.patch-list-container {
+  width: 40%;
+  max-width: 400px;
+  height: 70vh;
+  overflow: scroll;
+}
+
+.patch-title {
+  margin-top: 30px;
+}
+
+.patch-detail {
+  margin-left: 5px;
+}

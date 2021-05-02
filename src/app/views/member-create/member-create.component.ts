@@ -128,6 +128,7 @@ export class MemberCreateComponent implements OnInit {
         },
         history: [],
       },
+      id: this.newMemberID,
     };
     this.memberObjectRef.update({ [this.newMemberID]: newProfile }).then(() => {
       this.stepper.next();

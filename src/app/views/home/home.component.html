@@ -1,0 +1,16 @@
+<div class="home-page-wrapper">
+  <mat-card class="patch-list-container">
+    <h2 class="mat-title">更新紀錄</h2>
+    <mat-list dense>
+      <ng-container *ngFor="let note of patchNoteList">
+        <h2 class="patch-title" matSubheader>
+          {{ note.date }} - {{ note.title }}
+        </h2>
+        <mat-divider></mat-divider>
+        <mat-list-item class="patch-detail" *ngFor="let item of note.details">
+          - {{ item }}。
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+  </mat-card>
+</div>

@@ -24,6 +24,7 @@ import { environment } from './../environments/environment';
 
 import { AppRoutingModule } from '@module/app-routing.module';
 import { SharedMaterialModule } from '@module/shared-material.module';
+import { HomeComponent } from './views/home/home.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SharedMaterialModule } from '@module/shared-material.module';
     ProgramUpdateDialogComponent,
     StorageUpdateDialogComponent,
     AlertSheetComponent,
+    HomeComponent,
   ],
   imports: [
     ReactiveFormsModule,

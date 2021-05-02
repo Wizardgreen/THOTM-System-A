@@ -52,7 +52,7 @@ const getMemberList = (parsedCsv) => {
       const currentProgram = {
         id: programID,
         start: "-",
-        end: isSpecialProgram ? "-" : info.方案到期日,
+        end: isSpecialProgram ? "-" : formatDate(info.方案到期日),
       };
 
       const historyProgram = isSpecialProgram
