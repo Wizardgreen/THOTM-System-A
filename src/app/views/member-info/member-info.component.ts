@@ -122,38 +122,6 @@ export class MemberInfoComponent implements OnInit {
     });
   }
 
-  judgeStorageDisable(storageInfo: StorageInfoType): boolean {
-    if (storageInfo.ID === 'disabled') {
-      return true;
-    }
-    return false;
-  }
-
-  judgeStorageCellColor(storageInfo: StorageInfoType): string {
-    const today = moment();
-    if (today.isAfter(storageInfo.endDate)) {
-      return 'danger';
-    }
-    if (today.add(7, 'days').isAfter(storageInfo.endDate)) {
-      return 'warn';
-    }
-    if (storageInfo.memberID === this.memberID) {
-      return 'primary';
-    }
-    if (storageInfo.memberID && storageInfo.memberID !== this.memberID) {
-      return 'accent';
-    }
-    return '';
-  }
-
-  displayMemberLabel(storageInfo: StorageInfoType): string {
-    const { ID, memberNickname, memberName } = storageInfo;
-    if (ID === 'disabled') {
-      return '';
-    }
-    return memberNickname || memberName;
-  }
-
   openStorageDialog(storageInfo: StorageInfoType): void {
     const rented = storageInfo.memberID ? true : false;
     const lesseeInfo = {

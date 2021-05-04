@@ -10,7 +10,6 @@ import { ProgramUpdateDialogComponent } from '@views/member-info/program-update-
 import { ProgramCancelDialogComponent } from '@views/member-info/program-cancel-dialog/program-cancel-dialog.component';
 import { StorageUpdateDialogComponent } from '@views/member-info/storage-update-dialog/storage-update-dialog.component';
 import { MemberCreateComponent } from '@views/member-create/member-create.component';
-import { DashComponent } from '@views/dash/dash.component';
 import { LoginComponent } from '@views/login/login.component';
 
 import { SpinnerComponent } from '@components/spinner/spinner.component';
@@ -26,6 +25,7 @@ import { environment } from './../environments/environment';
 import { AppRoutingModule } from '@module/app-routing.module';
 import { SharedMaterialModule } from '@module/shared-material.module';
 import { HomeComponent } from './views/home/home.component';
+import { PanelContentStorageComponent } from './views/member-info/panel-content-storage/panel-content-storage.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,6 @@ import { HomeComponent } from './views/home/home.component';
     MemberListComponent,
     MemberInfoComponent,
     MemberCreateComponent,
-    DashComponent,
     LoginComponent,
     SpinnerComponent,
     RowComponent,
@@ -43,6 +42,7 @@ import { HomeComponent } from './views/home/home.component';
     StorageUpdateDialogComponent,
     AlertSheetComponent,
     HomeComponent,
+    PanelContentStorageComponent,
   ],
   imports: [
     ReactiveFormsModule,

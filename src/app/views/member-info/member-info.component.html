@@ -159,24 +159,11 @@
       <mat-expansion-panel-header>
         <mat-panel-title> 櫃位 </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="storage storage__wrapper">
-        <div class="storage__list" *ngFor="let singleList of visualizeStorage">
-          <button
-            class="storage__cell"
-            mat-raised-button
-            *ngFor="let info of singleList"
-            [color]="judgeStorageCellColor(info)"
-            [value]="info.ID"
-            [disabled]="judgeStorageDisable(info)"
-            (click)="openStorageDialog(info)"
-          >
-            <span class="storage__num" *ngIf="info.ID !== 'disabled'">
-              {{ info.ID.slice(1) }}
-            </span>
-            {{ displayMemberLabel(info) }}
-          </button>
-        </div>
-      </div>
+      <app-panel-content-storage
+        [memberID]="memberID"
+        [visualizeStorage]="visualizeStorage"
+        (showDialogEvent)="openStorageDialog($event)"
+      ></app-panel-content-storage>
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]="false" disabled>
       <mat-expansion-panel-header>

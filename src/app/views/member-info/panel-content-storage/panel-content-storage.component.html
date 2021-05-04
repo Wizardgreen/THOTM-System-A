@@ -1,0 +1,18 @@
+<div class="storage storage__wrapper">
+  <div class="storage__list" *ngFor="let singleList of visualizeStorage">
+    <button
+      class="storage__cell"
+      mat-raised-button
+      *ngFor="let info of singleList"
+      [color]="judgeStorageCellColor(info)"
+      [value]="info.ID"
+      [disabled]="judgeStorageDisable(info)"
+      (click)="showDialog(info)"
+    >
+      <span class="storage__num" *ngIf="info.ID !== 'disabled'">
+        {{ info.ID.slice(1) }}
+      </span>
+      {{ displayMemberLabel(info) }}
+    </button>
+  </div>
+</div>

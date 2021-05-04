@@ -11,7 +11,6 @@ import { MemberCreateComponent } from '@views/member-create/member-create.compon
 import { LoginComponent } from '@views/login/login.component';
 import { HomeComponent } from '@views/home/home.component';
 
-// import { DashComponent } from '@views/dash/dash.component';
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
 const routes: Routes = [
@@ -61,7 +60,6 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'login',
   },
-  // { path: 'dash', component: DashComponent, data: { animation: 'Dash' } },
 ];
 
 @NgModule({

@@ -14,7 +14,7 @@ interface PatchNoteType {
 export class HomeComponent implements OnInit {
   patchNoteList: PatchNoteType[] = [
     // {
-    //   title: '加入首頁、些許 UX 優化',
+    //   title: '會籍、櫃位大調整',
     //   date: '2021-05-02',
     //   details: [
     //     '現在免費會籍也會記錄到會籍的歷史紀錄中了',

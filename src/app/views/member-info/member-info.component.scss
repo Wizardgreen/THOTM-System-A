@@ -25,39 +25,3 @@ $smoke: #444;
 .expiry-date-field {
   margin-left: 40px;
 }
-
-.storage {
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-  }
-  &__list {
-    display: flex;
-  }
-  &__cell {
-    margin-right: 10px;
-    margin-bottom: 10px;
-    flex: 1;
-    color: $smoke;
-    &.mat-primary {
-      color: whitesmoke;
-      .storage__num {
-        color: whitesmoke;
-      }
-    }
-    &.mat-danger {
-      background-color: $red;
-      color: whitesmoke;
-      .storage__num {
-        color: whitesmoke;
-      }
-    }
-  }
-  &__num {
-    position: absolute;
-    top: -10px;
-    left: 3px;
-    font-size: 10px;
-    color: $smoke;
-  }
-}
