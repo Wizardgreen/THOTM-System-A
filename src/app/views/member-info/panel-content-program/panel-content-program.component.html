@@ -1,0 +1,57 @@
+<h3>現行會籍</h3>
+<mat-form-field appearance="standard">
+  <mat-label>會籍名稱</mat-label>
+  <mat-select [value]="currentProgram.id" disabled>
+    <mat-option *ngFor="let item of programList" [value]="item.value">{{
+      item.viewValue
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="standard" class="expiry-date-field">
+  <mat-label>會籍到期日</mat-label>
+  <input matInput [value]="currentProgram.end" disabled />
+</mat-form-field>
+<button
+  class="update-program"
+  mat-flat-button
+  color="warn"
+  (click)="showUpdateProgramDialog()"
+>
+  修改會籍
+</button>
+<button
+  *ngIf="isCurrentProgramExpired"
+  class="cancel-paid-program"
+  color="danger"
+  mat-flat-button
+  (click)="showCancelProgramDialog()"
+>
+  降為游擊指揮官
+</button>
+<h3>歷史紀錄</h3>
+<table
+  mat-table
+  matSort
+  class="program-table"
+  [dataSource]="historyProgram"
+  [fixedLayout]="false"
+>
+  <ng-container matColumnDef="sort">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+    <td mat-cell *matCellDef="let row">{{ +row.sort + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>會籍</th>
+    <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="start">
+    <th mat-header-cell *matHeaderCellDef>起始日期</th>
+    <td mat-cell *matCellDef="let row">{{ row.start }}</td>
+  </ng-container>
+  <ng-container matColumnDef="end">
+    <th mat-header-cell *matHeaderCellDef>結束日期</th>
+    <td mat-cell *matCellDef="let row">{{ row.end }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="programHeader"></tr>
+  <tr mat-row *matRowDef="let row; columns: programHeader"></tr>
+</table>

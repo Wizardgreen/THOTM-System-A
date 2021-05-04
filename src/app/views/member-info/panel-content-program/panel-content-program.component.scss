@@ -1,0 +1,18 @@
+$red: #d32f2f;
+$smoke: #444;
+
+.update-program,
+.cancel-paid-program {
+  float: right;
+}
+.cancel-paid-program {
+  margin-right: 10px;
+  &.mat-danger {
+    background-color: $red;
+    color: whitesmoke;
+  }
+}
+
+.expiry-date-field {
+  margin-left: 40px;
+}

@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { moment, isExpired } from '@utils/moment';
+import { moment } from '@utils/moment';
 import { ProgramUpdateDialogComponent } from './program-update-dialog/program-update-dialog.component';
 import { ProgramCancelDialogComponent } from './program-cancel-dialog/program-cancel-dialog.component';
 import { StorageUpdateDialogComponent } from './storage-update-dialog/storage-update-dialog.component';
@@ -39,7 +39,6 @@ export class MemberInfoComponent implements OnInit {
     hasCard: [false],
   });
 
-  programHeader = ['sort', 'name', 'start', 'end'];
   currentProgram: ProgramRecordType = { id: '', end: '', start: '' };
   historyProgram: ProgramTableRowData[] = [];
 
@@ -189,15 +188,7 @@ export class MemberInfoComponent implements OnInit {
     });
   }
 
-  get isCurrentProgramExpired(): boolean {
-    const currentProgramEndDate = this.currentProgram.end;
-    if (currentProgramEndDate === '-') {
-      return false;
-    }
-    return isExpired(currentProgramEndDate);
-  }
-
-  openProgramCancelDialog(): void {
+  openCancelProgramDialog(): void {
     const memberName = this.profile.get('name').value;
     const memberNickname = this.profile.get('nickname').value;
     const dialogRef = this.dialog.open(ProgramCancelDialogComponent, {
@@ -225,7 +216,7 @@ export class MemberInfoComponent implements OnInit {
     });
   }
 
-  openProgramUpdateDialog(): void {
+  openUpdateProgramDialog(): void {
     const dialogRef = this.dialog.open(ProgramUpdateDialogComponent, {
       width: '450px',
       data: {

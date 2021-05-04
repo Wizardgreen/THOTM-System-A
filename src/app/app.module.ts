@@ -26,6 +26,7 @@ import { AppRoutingModule } from '@module/app-routing.module';
 import { SharedMaterialModule } from '@module/shared-material.module';
 import { HomeComponent } from './views/home/home.component';
 import { PanelContentStorageComponent } from './views/member-info/panel-content-storage/panel-content-storage.component';
+import { PanelContentProgramComponent } from './views/member-info/panel-content-program/panel-content-program.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PanelContentStorageComponent } from './views/member-info/panel-content-
     AlertSheetComponent,
     HomeComponent,
     PanelContentStorageComponent,
+    PanelContentProgramComponent,
   ],
   imports: [
     ReactiveFormsModule,

@@ -9,7 +9,7 @@ interface Param {
   providedIn: 'root',
 })
 export class LocalStorageService {
-  appName = 'THOTM-SYSYEM_A';
+  appName = 'THOTM-SYSTEM_A';
 
   data: { [key: string]: any } = {};
 
@@ -19,11 +19,13 @@ export class LocalStorageService {
     this.localStorage = window.localStorage;
   }
 
-  get(key: string) {
-    if (this.data[key]) return this.data[key];
+  get(key: string): string {
+    if (this.data[key]) {
+      return this.data[key];
+    }
     return null;
   }
-  set(param: Param) {
+  set(param: Param): void {
     const { key, payload } = param;
     localStorage.setItem(
       this.appName,
