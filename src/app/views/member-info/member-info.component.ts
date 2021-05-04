@@ -8,8 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import * as moment from 'moment';
+import { moment, isExpired } from '@utils/moment';
 import { ProgramUpdateDialogComponent } from './program-update-dialog/program-update-dialog.component';
+import { ProgramCancelDialogComponent } from './program-cancel-dialog/program-cancel-dialog.component';
 import { StorageUpdateDialogComponent } from './storage-update-dialog/storage-update-dialog.component';
 import { ProgramMap, LocationList } from '@utils/maps';
 
@@ -108,6 +109,8 @@ export class MemberInfoComponent implements OnInit {
       } else {
         this.historyProgram = [];
       }
+      console.log(this.historyProgram);
+
       this.ready = true;
     });
   }
@@ -126,10 +129,10 @@ export class MemberInfoComponent implements OnInit {
     return false;
   }
 
-  judgeCellColor(storageInfo: StorageInfoType): string {
+  judgeStorageCellColor(storageInfo: StorageInfoType): string {
     const today = moment();
     if (today.isAfter(storageInfo.endDate)) {
-      return 'error';
+      return 'danger';
     }
     if (today.add(7, 'days').isAfter(storageInfo.endDate)) {
       return 'warn';
@@ -197,7 +200,18 @@ export class MemberInfoComponent implements OnInit {
     const payload = {
       current: newProgram,
       history: [
-        ...this.historyProgram.map(({ name, ...rest }) => ({ ...rest })),
+        ...this.historyProgram.map(({ name, ...rest }, idx) => {
+          // 假如最後一筆資料為游擊隊，那就順便寫入結束日期
+          if (idx === +newPosition - 1 && rest.id === 'GO') {
+            return {
+              ...rest,
+              end: moment(newProgram.start)
+                .subtract('1', 'day')
+                .format('YYYY-MM-DD'),
+            };
+          }
+          return { ...rest };
+        }),
         { sort: newPosition, ...newProgram },
       ],
     };
@@ -207,7 +221,43 @@ export class MemberInfoComponent implements OnInit {
     });
   }
 
-  openProgramDialog(): void {
+  get isCurrentProgramExpired(): boolean {
+    const currentProgramEndDate = this.currentProgram.end;
+    if (currentProgramEndDate === '-') {
+      return false;
+    }
+    return isExpired(currentProgramEndDate);
+  }
+
+  openProgramCancelDialog(): void {
+    const memberName = this.profile.get('name').value;
+    const memberNickname = this.profile.get('nickname').value;
+    const dialogRef = this.dialog.open(ProgramCancelDialogComponent, {
+      width: '450px',
+      data: {
+        displayName: memberNickname || memberName,
+        memberID: this.memberID,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (confirm) => {
+        if (confirm) {
+          const prevProgram = this.historyProgram[
+            this.historyProgram.length - 1
+          ];
+          const prevEndDate = prevProgram.end;
+          this.updateMemberProgram({
+            id: 'GO',
+            start: moment(prevEndDate).add('1', 'day').format('YYYY-MM-DD'),
+            end: '-',
+          });
+        }
+      },
+    });
+  }
+
+  openProgramUpdateDialog(): void {
     const dialogRef = this.dialog.open(ProgramUpdateDialogComponent, {
       width: '450px',
       data: {

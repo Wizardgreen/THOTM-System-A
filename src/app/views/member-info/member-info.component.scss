@@ -3,20 +3,29 @@
   float: right;
 }
 
-.program-table .mat-column-sort {
-  width: 50px;
-}
+// .program-table .mat-column-sort {
+//   width: 50px;
+// }
 
-.update-program {
+$red: #d32f2f;
+$smoke: #444;
+
+.update-program,
+.cancel-paid-program {
   float: right;
+}
+.cancel-paid-program {
+  margin-right: 10px;
+  &.mat-danger {
+    background-color: $red;
+    color: whitesmoke;
+  }
 }
 
 .expiry-date-field {
   margin-left: 40px;
 }
 
-$red: #d32f2f;
-$smoke: #444;
 .storage {
   &__wrapper {
     display: flex;
@@ -36,7 +45,7 @@ $smoke: #444;
         color: whitesmoke;
       }
     }
-    &.mat-error {
+    &.mat-danger {
       background-color: $red;
       color: whitesmoke;
       .storage__num {

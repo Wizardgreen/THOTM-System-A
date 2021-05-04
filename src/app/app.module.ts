@@ -7,6 +7,7 @@ import { AlertSheetComponent } from '@views/member-list/alert-sheet/alert-sheet.
 
 import { MemberInfoComponent } from '@views/member-info/member-info.component';
 import { ProgramUpdateDialogComponent } from '@views/member-info/program-update-dialog/program-update-dialog.component';
+import { ProgramCancelDialogComponent } from '@views/member-info/program-cancel-dialog/program-cancel-dialog.component';
 import { StorageUpdateDialogComponent } from '@views/member-info/storage-update-dialog/storage-update-dialog.component';
 import { MemberCreateComponent } from '@views/member-create/member-create.component';
 import { DashComponent } from '@views/dash/dash.component';
@@ -38,6 +39,7 @@ import { HomeComponent } from './views/home/home.component';
     RowComponent,
     PageWrapperComponent,
     ProgramUpdateDialogComponent,
+    ProgramCancelDialogComponent,
     StorageUpdateDialogComponent,
     AlertSheetComponent,
     HomeComponent,

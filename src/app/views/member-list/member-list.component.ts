@@ -36,7 +36,6 @@ export class MemberListComponent implements OnInit {
     'lineId',
     'program',
     'expiryDate',
-    'storage',
     'view',
   ];
 

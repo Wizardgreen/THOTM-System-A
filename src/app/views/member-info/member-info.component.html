@@ -114,9 +114,18 @@
         class="update-program"
         mat-flat-button
         color="warn"
-        (click)="openProgramDialog()"
+        (click)="openProgramUpdateDialog()"
       >
         修改會籍
+      </button>
+      <button
+        *ngIf="isCurrentProgramExpired"
+        class="cancel-paid-program"
+        color="danger"
+        mat-flat-button
+        (click)="openProgramCancelDialog()"
+      >
+        降為游擊指揮官
       </button>
       <h3>歷史紀錄</h3>
       <table
@@ -156,7 +165,7 @@
             class="storage__cell"
             mat-raised-button
             *ngFor="let info of singleList"
-            [color]="judgeCellColor(info)"
+            [color]="judgeStorageCellColor(info)"
             [value]="info.ID"
             [disabled]="judgeStorageDisable(info)"
             (click)="openStorageDialog(info)"

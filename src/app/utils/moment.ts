@@ -1,7 +1,7 @@
 import * as _moment from 'moment';
 
-export function moment(dateString: string): _moment.Moment {
-  return _moment(dateString);
+export function moment(dateString?: string): _moment.Moment {
+  return dateString ? _moment(dateString) : _moment();
 }
 
 export function isValidDate(dateString: string): boolean {

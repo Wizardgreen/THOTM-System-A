@@ -13,6 +13,15 @@ interface PatchNoteType {
 })
 export class HomeComponent implements OnInit {
   patchNoteList: PatchNoteType[] = [
+    // {
+    //   title: '加入首頁、些許 UX 優化',
+    //   date: '2021-05-02',
+    //   details: [
+    //     '現在免費會籍也會記錄到會籍的歷史紀錄中了',
+    //     '會員資訊頁新增降級按鈕，用來將過期的會員降為免費會員級別，只會在付費時段超時候出現',
+    //     '移除會員列表有個一多餘的"櫃位"欄位',
+    //   ],
+    // },
     {
       title: '加入首頁、些許 UX 優化',
       date: '2021-05-02',
