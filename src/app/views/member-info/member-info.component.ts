@@ -8,11 +8,12 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { moment } from '@utils/moment';
+import { moment, isExpired } from '@utils/moment';
 import { ProgramUpdateDialogComponent } from './program-update-dialog/program-update-dialog.component';
 import { ProgramCancelDialogComponent } from './program-cancel-dialog/program-cancel-dialog.component';
 import { StorageUpdateDialogComponent } from './storage-update-dialog/storage-update-dialog.component';
 import { ProgramMap, LocationList } from '@utils/maps';
+import { StorageStatusEnum } from '@utils/enum';
 
 interface ProgramTableRowData extends ProgramRecordType {
   name: string;
@@ -48,6 +49,7 @@ export class MemberInfoComponent implements OnInit {
   memberMapRef: AngularFireObject<MemberInfoType>;
   storageListRef: AngularFireList<StorageInfoType>;
   visualizeStorage: StorageInfoType[][] = [[], [], [], []];
+  storageStatusMap = StorageStatusEnum;
 
   constructor(
     private route: ActivatedRoute,
@@ -81,11 +83,22 @@ export class MemberInfoComponent implements OnInit {
         if (pointer === 4) {
           pointer = 0;
         }
+
         const target = payload[pointer];
         if (target.length === 3) {
           target.push({ ID: 'disabled' });
         }
-        target.push(item);
+
+        let status = item.memberID
+          ? this.storageStatusMap.RENTED
+          : this.storageStatusMap.EMPTY;
+        if (
+          status === this.storageStatusMap.RENTED &&
+          isExpired(item.endDate)
+        ) {
+          status = this.storageStatusMap.EXPIRED;
+        }
+        target.push({ ...item, status });
         pointer = pointer + 1;
       });
 
@@ -108,7 +121,6 @@ export class MemberInfoComponent implements OnInit {
       } else {
         this.historyProgram = [];
       }
-      console.log(this.historyProgram);
 
       this.ready = true;
     });
@@ -122,14 +134,13 @@ export class MemberInfoComponent implements OnInit {
   }
 
   openStorageDialog(storageInfo: StorageInfoType): void {
-    const rented = storageInfo.memberID ? true : false;
     const lesseeInfo = {
       memberID: storageInfo.memberID,
       memberName: storageInfo.memberName,
       memberNickname: storageInfo.memberNickname,
     };
 
-    if (rented === false) {
+    if (storageInfo.status === this.storageStatusMap.EMPTY) {
       lesseeInfo.memberID = this.memberID;
       lesseeInfo.memberName = this.profile.get('name').value;
       lesseeInfo.memberNickname = this.profile.get('nickname').value;
@@ -138,7 +149,6 @@ export class MemberInfoComponent implements OnInit {
     const dialogRef = this.dialog.open(StorageUpdateDialogComponent, {
       width: '450px',
       data: {
-        rented,
         storageInfo,
         lesseeInfo,
       },
@@ -221,8 +231,10 @@ export class MemberInfoComponent implements OnInit {
       width: '450px',
       data: {
         programList: this.programList.filter(({ value }) => {
-          const { HL, MA, GO } = ProgramMap;
-          return value !== HL.value && value !== MA.value && value !== GO.value;
+          const { HL, MA, GO, NEW } = ProgramMap;
+          return (
+            [HL.value, MA.value, GO.value, NEW.value].includes(value) === false
+          );
         }),
       },
     });

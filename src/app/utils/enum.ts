@@ -7,3 +7,9 @@ export enum ProgramEnum {
   見習指揮官 = 'OC',
   游擊隊指揮官 = 'GO',
 }
+
+export enum StorageStatusEnum {
+  EMPTY = 'EMPTY',
+  RENTED = 'RENTED',
+  EXPIRED = 'EXPIRED',
+}

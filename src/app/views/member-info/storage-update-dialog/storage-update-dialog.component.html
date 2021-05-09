@@ -1,13 +1,17 @@
 <h2 mat-dialog-title>修改櫃位</h2>
-<div mat-dialog-content>
+<div mat-dialog-content [ngSwitch]="data.storageInfo.status">
   <div class="function-wrapper">
     將會員
-    <span class="text--bold">
-      {{ data.lesseeInfo.memberNickname || data.lesseeInfo.memberName }}
-    </span>
-    {{ data.rented ? "移出" : "註冊至" }}
+    <span class="text--bold">{{ handleDisplayName() }}</span>
+    {{ " " }}
+    <span *ngSwitchCase="storageStatus.EMPTY">註冊至</span>
+    <span *ngSwitchCase="storageStatus.RENTED">移出</span>
+    <span *ngSwitchCase="storageStatus.EXPIRED">移出</span>
     <span class="text--bold">{{ data.storageInfo.ID.slice(1) }}</span>
-    號櫃位，{{ data.rented ? "或延長租約" : "租期為" }}
+    號櫃位，
+    <span *ngSwitchCase="storageStatus.EMPTY">租期為</span>
+    <span *ngSwitchCase="storageStatus.RENTED">或延長租約</span>
+    <span *ngSwitchCase="storageStatus.EXPIRED">或重新購買</span>
     <mat-select
       class="duration-select"
       name="duration"
@@ -19,39 +23,53 @@
     </mat-select>
     個月。
   </div>
-  <div class="date-line-wrapper" *ngIf="data.rented">
+  <div class="date-line-wrapper" *ngSwitchCase="storageStatus.EMPTY">
+    <p class="date-line">開始日期：{{ startDate ? startDate : "-" }}</p>
+    <p class="date-line">結束日期：{{ endDate ? endDate : "-" }}</p>
+  </div>
+  <div class="date-line-wrapper" *ngSwitchCase="storageStatus.RENTED">
     <p class="date-line">開始日期：{{ data.storageInfo.startDate }}</p>
     <p class="date-line">結束日期：{{ data.storageInfo.endDate }}</p>
     <p class="date-line">延長日期：{{ extendDate ? extendDate : "-" }}</p>
   </div>
-  <div class="date-line-wrapper" *ngIf="data.rented === false">
-    <p class="date-line">開始日期：{{ startDate ? startDate : "-" }}</p>
-    <p class="date-line">結束日期：{{ endDate ? endDate : "-" }}</p>
+  <div class="date-line-wrapper" *ngSwitchCase="storageStatus.EXPIRED">
+    <p class="date-line">過期日期：{{ data.storageInfo.endDate }}</p>
+    <p class="date-line">新開始日期：{{ startDate ? startDate : "-" }}</p>
+    <p class="date-line">新結束日期：{{ endDate ? endDate : "-" }}</p>
   </div>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions [ngSwitch]="data.storageInfo.status">
   <button mat-flat-button color="primary" (click)="onNoClick()">取消</button>
   <button
     mat-button
-    *ngIf="data.rented === false"
+    *ngSwitchCase="storageStatus.EMPTY"
     [mat-dialog-close]="createNewStorageInfo('add')"
     [disabled]="endDate === null || startDate === null"
   >
     確定出租
   </button>
-  <button
-    *ngIf="data.rented"
-    mat-button
-    [mat-dialog-close]="createNewStorageInfo('remove')"
-  >
-    移出櫃位
-  </button>
-  <button
-    *ngIf="data.rented"
-    mat-button
-    [mat-dialog-close]="createNewStorageInfo('extend')"
-    [disabled]="extendDate === null"
-  >
-    延長租約
-  </button>
+  <ng-container *ngSwitchCase="storageStatus.RENTED">
+    <button mat-button [mat-dialog-close]="createNewStorageInfo('remove')">
+      移出櫃位
+    </button>
+    <button
+      mat-button
+      [mat-dialog-close]="createNewStorageInfo('extend')"
+      [disabled]="extendDate === null"
+    >
+      延長租約
+    </button>
+  </ng-container>
+  <ng-container *ngSwitchCase="storageStatus.EXPIRED">
+    <button mat-button [mat-dialog-close]="createNewStorageInfo('remove')">
+      移出櫃位
+    </button>
+    <button
+      mat-button
+      [mat-dialog-close]="createNewStorageInfo('add')"
+      [disabled]="endDate === null || startDate === null"
+    >
+      重新購買
+    </button>
+  </ng-container>
 </div>

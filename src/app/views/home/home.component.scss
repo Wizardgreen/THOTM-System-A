@@ -16,6 +16,11 @@
   margin-top: 30px;
 }
 
-.patch-detail {
-  margin-left: 5px;
+.mat-list .mat-list-item .mat-line {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.mat-list .mat-list-item {
+  height: auto;
+  margin-top: 1rem;
 }

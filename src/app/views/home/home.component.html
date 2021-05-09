@@ -7,8 +7,8 @@
           {{ note.date }} - {{ note.title }}
         </h2>
         <mat-divider></mat-divider>
-        <mat-list-item class="patch-detail" *ngFor="let item of note.details">
-          - {{ item }}。
+        <mat-list-item *ngFor="let item of note.details">
+          <p matLine>- {{ item }}。</p>
         </mat-list-item>
       </ng-container>
     </mat-list>

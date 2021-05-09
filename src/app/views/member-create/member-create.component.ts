@@ -9,7 +9,7 @@ import {
   ValidatorFn,
   FormControl,
 } from '@angular/forms';
-import * as moment from 'moment';
+import { moment } from '@utils/moment';
 import { map } from 'rxjs/operators';
 import { rules, qrCodeList } from './setting';
 import { LocationList, ProgramMap } from '@utils/maps';
@@ -117,16 +117,23 @@ export class MemberCreateComponent implements OnInit {
       return;
     }
 
+    // 新會員體驗期
+    const newMemberProgram = {
+      id: ProgramMap.NEW.value,
+      start: moment().format('YYYY-MM-DD'),
+      end: moment().add(2, 'M').format('YYYY-MM-DD'),
+    };
     const newProfile = {
       ...createMemberData(),
       ...this.profile.getRawValue(),
       program: {
-        current: {
-          id: ProgramMap.GO.value, // 基礎會員級別
-          start: '-',
-          end: '-',
-        },
-        history: [],
+        current: newMemberProgram,
+        history: [
+          {
+            sort: 0,
+            ...newMemberProgram,
+          },
+        ],
       },
       id: this.newMemberID,
     };

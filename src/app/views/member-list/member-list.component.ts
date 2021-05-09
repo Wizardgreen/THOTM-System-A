@@ -137,7 +137,6 @@ export class MemberListComponent implements OnInit {
         };
       });
     this.alertList = this.alertList.concat(cache);
-    console.log(this.alertList);
   }
 
   setProgramToAlertList(data: MemberInfoType[]): void {
@@ -161,7 +160,6 @@ export class MemberListComponent implements OnInit {
         };
       });
     this.alertList = this.alertList.concat(cache);
-    console.log(this.alertList);
   }
 
   applyFilter(event: Event): void {
@@ -170,7 +168,7 @@ export class MemberListComponent implements OnInit {
   }
 
   toMemberCreate(): void {
-    const newID = `IC${this.dataLength + 27}`;
+    const newID = `IC${this.dataLength + 26}`;
     this.router.navigate(['member-create', { newID }]);
   }
 

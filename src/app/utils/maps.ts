@@ -6,6 +6,7 @@ export const ProgramMap = {
   EC: { viewValue: '菁英指揮官', value: 'EC' },
   OC: { viewValue: '見習指揮官', value: 'OC' },
   GO: { viewValue: '游擊隊指揮官', value: 'GO' },
+  NEW: { viewValue: '新會員體驗期', value: 'NEW' },
 };
 
 export const LocationList: Location[] = [

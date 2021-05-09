@@ -40,12 +40,13 @@ declare interface ProgramRecordType {
 }
 
 declare interface StorageInfoType {
-  memberID?: string;
-  memberName?: string;
-  memberNickname?: string;
-  startDate?: string;
-  endDate?: string;
+  memberID: string;
+  memberName: string;
+  memberNickname: string;
+  startDate: string;
+  endDate: string;
   ID: string;
+  status?: 'EMPTY' | 'RENTED' | 'EXPIRED';
 }
 
 declare interface StorageInfoMap {

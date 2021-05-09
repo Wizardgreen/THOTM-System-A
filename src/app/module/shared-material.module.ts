@@ -26,6 +26,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -61,6 +62,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatButtonToggleModule,
     MatBadgeModule,
     MatBottomSheetModule,
+    MatChipsModule,
   ],
 })
 export class SharedMaterialModule {}

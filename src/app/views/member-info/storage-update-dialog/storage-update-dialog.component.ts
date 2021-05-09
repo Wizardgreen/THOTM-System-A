@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
+import { StorageStatusEnum } from '@utils/enum';
 
 interface InjectDataType {
-  rented: boolean;
   storageInfo: StorageInfoType;
   lesseeInfo: {
     memberID: string;
@@ -21,26 +21,38 @@ export class StorageUpdateDialogComponent {
   startDate: string = null;
   endDate: string = null;
   extendDate: string = null;
+  des: string[] = ['', ''];
+  storageStatus = StorageStatusEnum;
 
   constructor(
     public dialogRef: MatDialogRef<StorageUpdateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InjectDataType
   ) {}
 
-  handleDurationChange(duration): void {
-    if (this.data.rented) {
-      const endDate = moment(this.data.storageInfo.endDate);
-      this.extendDate = endDate
-        .add(1, 'day')
-        .add(duration, 'M')
-        .format('YYYY-MM-DD');
-    }
+  handleDurationChange(duration: number): void {
+    const { storageInfo } = this.data;
+    const { RENTED, EMPTY, EXPIRED } = this.storageStatus;
 
-    if (this.data.rented === false) {
-      const today = moment();
-      this.startDate = today.format('YYYY-MM-DD');
-      this.endDate = today.add(duration, 'M').format('YYYY-MM-DD');
+    switch (storageInfo.status) {
+      case RENTED:
+        const endDate = moment(storageInfo.endDate);
+        this.extendDate = endDate
+          .add(1, 'day')
+          .add(duration, 'M')
+          .format('YYYY-MM-DD');
+        break;
+      case EMPTY:
+      case EXPIRED:
+        const today = moment();
+        this.startDate = today.format('YYYY-MM-DD');
+        this.endDate = today.add(duration, 'M').format('YYYY-MM-DD');
+        break;
     }
+  }
+
+  handleDisplayName(): string {
+    const { memberNickname, memberName } = this.data.lesseeInfo;
+    return memberNickname || memberName;
   }
 
   createNewStorageInfo(action: 'add' | 'remove' | 'extend'): StorageInfoType {

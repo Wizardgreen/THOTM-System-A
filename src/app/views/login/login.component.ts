@@ -28,7 +28,7 @@ export class LoginComponent {
       .then((res) => {
         console.log(res);
         this.loading = false;
-        this.router.navigate(['member-list']);
+        this.router.navigate(['home']);
       })
       .catch((err) => {
         console.log(err);

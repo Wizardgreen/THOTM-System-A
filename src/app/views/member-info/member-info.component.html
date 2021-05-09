@@ -6,6 +6,7 @@
       <mat-expansion-panel-header>
         <mat-panel-title>個人資料</mat-panel-title>
       </mat-expansion-panel-header>
+      <!-- TODO:將這塊程式碼拆成子元件 -->
       <form class="form-container form-basic-info" [formGroup]="profile">
         <app-row>
           <mat-form-field appearance="standard">
@@ -31,7 +32,6 @@
           ></mat-datepicker-toggle>
           <mat-datepicker #birthdayPicker></mat-datepicker>
         </mat-form-field>
-
         <app-row>
           <mat-form-field appearance="standard">
             <mat-label>Line ID</mat-label>

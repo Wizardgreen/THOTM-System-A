@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { moment } from '@utils/moment';
+import { moment, willExpireIn7Days } from '@utils/moment';
+import { StorageStatusEnum } from '@utils/enum';
 
 @Component({
   selector: 'app-panel-content-storage',
@@ -25,11 +26,10 @@ export class PanelContentStorageComponent implements OnInit {
   }
 
   judgeStorageCellColor(storageInfo: StorageInfoType): string {
-    const today = moment();
-    if (today.isAfter(storageInfo.endDate)) {
+    if (storageInfo.status === StorageStatusEnum.EXPIRED) {
       return 'danger';
     }
-    if (today.add(7, 'days').isAfter(storageInfo.endDate)) {
+    if (willExpireIn7Days(storageInfo.endDate)) {
       return 'warn';
     }
     if (storageInfo.memberID === this.memberID) {
