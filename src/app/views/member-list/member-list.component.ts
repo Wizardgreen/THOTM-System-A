@@ -6,7 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AlertSheetComponent } from './alert-sheet/alert-sheet.component';
-import { ProgramMap } from '../../utils/maps';
+import { ProgramEnum } from '@utils/enum';
+import { IdentityMap } from '@utils/maps';
 import {
   isValidDate,
   willExpireIn7Days,
@@ -23,6 +24,7 @@ export class MemberListComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  IdentityMap = IdentityMap;
   memberReady = false;
   storageReady = false;
   storageListRef: AngularFireList<StorageInfoType[]>;
@@ -81,11 +83,10 @@ export class MemberListComponent implements OnInit {
 
   setTableData(data: MemberInfoType[]): void {
     this.dataSource.data = data.map(({ program, ...other }) => {
-      // mapping 會員方案的名稱
       const currentProgram = program.current;
       return {
         ...other,
-        program: ProgramMap[currentProgram.id].viewValue,
+        program,
         expiryDate: currentProgram.end,
       };
     });
@@ -182,5 +183,18 @@ export class MemberListComponent implements OnInit {
         alertList: this.alertList,
       },
     });
+  }
+
+  getProgramTagClassName(currentProgram: ProgramRecordType): string {
+    if (isExpired(currentProgram.end)) {
+      return 'danger';
+    }
+    switch (currentProgram.id) {
+      case ProgramEnum.林務管理員:
+      case ProgramEnum.林務巡守員:
+        return 'staff';
+      default:
+        return currentProgram.id;
+    }
   }
 }

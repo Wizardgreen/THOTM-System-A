@@ -1,3 +1,5 @@
+@import "variables";
+
 .search-field {
   width: 200px;
 }
@@ -6,4 +8,34 @@
   position: fixed;
   right: 10%;
   bottom: 5%;
+}
+
+.mat-flat-button {
+  border-radius: 20px;
+  &.danger {
+    background-color: $red;
+    color: whitesmoke;
+  }
+  &.staff {
+    background-color: $staff;
+    color: whitesmoke;
+  }
+  &.FM {
+    background-color: $FM;
+  }
+  &.GG {
+    background-color: $GG;
+    color: whitesmoke;
+  }
+  &.EC {
+    background-color: $EC;
+    color: whitesmoke;
+  }
+  &.OC {
+    background-color: $OC;
+  }
+  &.NEW {
+    background-color: $GO;
+    color: whitesmoke;
+  }
 }

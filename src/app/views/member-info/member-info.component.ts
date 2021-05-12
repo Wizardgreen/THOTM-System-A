@@ -12,7 +12,7 @@ import { moment, isExpired } from '@utils/moment';
 import { ProgramUpdateDialogComponent } from './program-update-dialog/program-update-dialog.component';
 import { ProgramCancelDialogComponent } from './program-cancel-dialog/program-cancel-dialog.component';
 import { StorageUpdateDialogComponent } from './storage-update-dialog/storage-update-dialog.component';
-import { ProgramMap, LocationList } from '@utils/maps';
+import { IdentityMap, LocationList } from '@utils/maps';
 import { StorageStatusEnum } from '@utils/enum';
 
 interface ProgramTableRowData extends ProgramRecordType {
@@ -44,7 +44,7 @@ export class MemberInfoComponent implements OnInit {
   historyProgram: ProgramTableRowData[] = [];
 
   locationList = LocationList;
-  programList = Object.values(ProgramMap);
+  programList = Object.values(IdentityMap);
   ready = false;
   memberMapRef: AngularFireObject<MemberInfoType>;
   storageListRef: AngularFireList<StorageInfoType>;
@@ -114,8 +114,8 @@ export class MemberInfoComponent implements OnInit {
         this.historyProgram = program.history.map(({ id, ...left }) => {
           return {
             ...left,
-            name: ProgramMap[id].viewValue,
-            id: ProgramMap[id].value,
+            name: IdentityMap[id].viewValue,
+            id: IdentityMap[id].value,
           };
         });
       } else {
@@ -231,9 +231,11 @@ export class MemberInfoComponent implements OnInit {
       width: '450px',
       data: {
         programList: this.programList.filter(({ value }) => {
-          const { HL, MA, GO, NEW } = ProgramMap;
+          const { MANAGER, WORKER, GO, NEW } = IdentityMap;
           return (
-            [HL.value, MA.value, GO.value, NEW.value].includes(value) === false
+            [MANAGER.value, WORKER.value, GO.value, NEW.value].includes(
+              value
+            ) === false
           );
         }),
       },

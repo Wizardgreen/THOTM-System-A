@@ -1,12 +1,25 @@
-export const ProgramMap = {
-  HL: { viewValue: '丘主', value: 'HL' },
-  MA: { viewValue: '有志之士', value: 'MA' },
+export const PaidProgramMap: IdentityType = {
   FM: { viewValue: '戰地元帥', value: 'FM' },
   GG: { viewValue: '禁軍統領', value: 'GG' },
   EC: { viewValue: '菁英指揮官', value: 'EC' },
   OC: { viewValue: '見習指揮官', value: 'OC' },
   GO: { viewValue: '游擊隊指揮官', value: 'GO' },
+};
+
+export const FreeProgramMap: IdentityType = {
+  CHOSEN: { viewValue: '神選', value: 'CHOSEN' },
   NEW: { viewValue: '新會員體驗期', value: 'NEW' },
+};
+
+export const StaffMap: IdentityType = {
+  MANAGER: { viewValue: '林務管理員', value: 'MANAGER' },
+  WORKER: { viewValue: '林務巡守員', value: 'WORKER' },
+};
+
+export const IdentityMap: IdentityType = {
+  ...PaidProgramMap,
+  ...FreeProgramMap,
+  ...StaffMap,
 };
 
 export const LocationList: Location[] = [
@@ -43,4 +56,11 @@ export const LocationList: Location[] = [
 interface Location {
   groupName: string;
   list: string[];
+}
+
+interface IdentityType {
+  [key: string]: {
+    viewValue: string;
+    value: string;
+  };
 }

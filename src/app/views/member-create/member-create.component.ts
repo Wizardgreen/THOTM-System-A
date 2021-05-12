@@ -12,7 +12,7 @@ import {
 import { moment } from '@utils/moment';
 import { map } from 'rxjs/operators';
 import { rules, qrCodeList } from './setting';
-import { LocationList, ProgramMap } from '@utils/maps';
+import { LocationList, FreeProgramMap } from '@utils/maps';
 
 const createMemberData = () => ({
   birthday: '',
@@ -119,7 +119,7 @@ export class MemberCreateComponent implements OnInit {
 
     // 新會員體驗期
     const newMemberProgram = {
-      id: ProgramMap.NEW.value,
+      id: FreeProgramMap.NEW.value,
       start: moment().format('YYYY-MM-DD'),
       end: moment().add(2, 'M').format('YYYY-MM-DD'),
     };
