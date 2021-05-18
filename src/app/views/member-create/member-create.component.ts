@@ -30,7 +30,6 @@ const createMemberData = () => ({
   note: '',
   phone: '',
   program: '',
-  storage: '',
 });
 const profileValidation: ValidatorFn = (control) => {
   const name = control.get('name').value;

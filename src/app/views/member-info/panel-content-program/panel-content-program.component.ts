@@ -12,7 +12,7 @@ export class PanelContentProgramComponent {
   @Output() cancelProgramDialogRequest = new EventEmitter<void>();
   @Output() updateProgramDialogRequest = new EventEmitter<void>();
 
-  programHeader = ['sort', 'name', 'start', 'end'];
+  programHeader = ['sort', 'name', 'start', 'end', 'note'];
 
   get isCurrentProgramExpired(): boolean {
     const currentProgramEndDate = this.currentProgram.end;

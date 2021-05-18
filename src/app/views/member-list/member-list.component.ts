@@ -97,11 +97,15 @@ export class MemberListComponent implements OnInit {
       member: MemberInfoType,
       filter: string
     ): boolean => {
-      const matchedName =
-        member.name.toLocaleLowerCase().indexOf(filter) !== -1;
-      const matchedNickName =
-        member.nickname.toLocaleLowerCase().indexOf(filter) !== -1;
-      return matchedNickName || matchedName;
+      const method = (x: string, key: string) => {
+        return x.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1;
+      };
+      const { name, nickname } = member;
+      const programID = member.program.current.id;
+      const matchedProgram = method(programID, filter);
+      const matchedName = method(name, filter);
+      const matchedNickName = method(nickname, filter);
+      return matchedNickName || matchedName || matchedProgram;
     };
   }
 
@@ -163,7 +167,11 @@ export class MemberListComponent implements OnInit {
     this.alertList = this.alertList.concat(cache);
   }
 
-  applyFilter(event: Event): void {
+  applyProgramFilter(programID: string): void {
+    this.dataSource.filter = programID;
+  }
+
+  applyNameFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
   }

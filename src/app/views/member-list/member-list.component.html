@@ -3,15 +3,18 @@
 <app-page-wrapper [hidden]="memberReady === false">
   <mat-form-field class="search-field">
     <mat-label>搜尋姓名、暱稱</mat-label>
-    <input matInput #filter (keyup)="applyFilter($event)" />
+    <input matInput (keyup)="applyNameFilter($event)" />
   </mat-form-field>
   <mat-form-field class="search-field">
-    <mat-label>選擇會員類別</mat-label>
-    <mat-select>
-      <mat-option>-- None --</mat-option>
-      <mat-option value="1">Option 1</mat-option>
-      <mat-option value="2">Option 2</mat-option>
-      <mat-option value="3">Option 3</mat-option>
+    <mat-label>過濾會員類別</mat-label>
+    <mat-select (valueChange)="applyProgramFilter($event)">
+      <mat-option>-- 無 --</mat-option>
+      <!-- 寫 HardCode 是為了手動排序與過濾選項 -->
+      <mat-option
+        *ngFor="let id of ['FM', 'GG', 'EC', 'OC', 'GO', 'NEW', 'CHOSEN']"
+        [value]="id"
+        >{{ IdentityMap[id].viewValue }}</mat-option
+      >
     </mat-select>
   </mat-form-field>
   <div class="mat-elevation-z8">

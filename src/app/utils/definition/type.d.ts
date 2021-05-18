@@ -37,6 +37,7 @@ declare interface ProgramRecordType {
   id: string;
   start: string;
   end: string;
+  note?: string;
 }
 
 declare interface StorageInfoType {
